@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Raccoglitore</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <button class="sidebar-toggle" id="sidebar-toggle" title="Apri sidebar">☰</button>
+    <div class="app">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h2>Famiglie</h2>
+          <input type="text" id="search-input" placeholder="Cerca famiglie, sequenze, gruppo, macchina..." style="width:100%;padding:6px;margin:8px 0;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);">
+          <div class="resize-handle" id="resize-handle" title="Ridimensiona sidebar"></div>
+        </div>
+        <div id="family-list" class="family-list"></div>
+        <div class="resize-grip" id="resize-grip" title="Ridimensiona sidebar"></div>
+      </aside>
+      <main class="main" id="main">
+        <header>
+          <!-- title removed per user request -->
+        </header>
+        <section id="content-area" style="display:flex;gap:12px;align-items:stretch">
+          <div id="pdf-preview" style="flex:1 1 auto;border-left:1px solid var(--border);padding:8px;min-height:70vh;display:flex;flex-direction:column;">
+            <div class="pdf-toolbar" style="margin-bottom:8px;">
+              <div class="cell" id="toolbar-r1-c1">Gruppo</div>
+              <div class="cell" id="toolbar-r1-c2">Macchina</div>
+              <div class="cell" id="toolbar-r2-c1"></div>
+              <div class="cell" id="toolbar-r2-c2"></div>
+            </div>
+            <div id="pdf-container" style="flex:1;position:relative;min-height:60vh;background:var(--card);border-radius:6px;padding:6px;overflow:auto;border:1px solid var(--border)">
+              <div id="pdf-placeholder" style="color:var(--text-secondary)">Anteprima PDF</div>
+              <div id="pdf-blocker" class="pdf-blocker" style="display:none; position:absolute;inset:0;z-index:2;background:transparent;cursor:default"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="/static/js/app.js"></script>
+    <!-- simple modal for credentials -->
+    <div id="cred-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Accedi ad ADI</h3>
+        <div>
+          <label>Utente</label>
+          <input id="adi-user" type="text" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input id="adi-pass" type="password" />
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <input id="adi-remember" type="checkbox" />
+          <label for="adi-remember">Ricorda credenziali su questa macchina</label>
+        </div>
+        <div style="margin-top:6px">
+          <button id="adi-clear-stored" class="adi-btn">Rimuovi credenziali memorizzate</button>
+        </div>
+        <div>
+          <label>Browser</label>
+          <select id="adi-browser">
+            <option value="edge">Edge</option>
+            <option value="chrome">Chrome</option>
+          </select>
+        </div>
+        <div>
+          <label>Percorso driver (opzionale)</label>
+          <input id="adi-driver" type="text" placeholder="C:\\path\\to\\msedgedriver.exe" />
+        </div>
+        <div>
+          <label>Percorso browser (opzionale)</label>
+          <input id="adi-browser-path" type="text" placeholder="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" />
+        </div>
+        <div class="modal-actions">
+          <button id="adi-cancel">Annulla</button>
+          <button id="adi-ok">Apri PDF</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

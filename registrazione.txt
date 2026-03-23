@@ -1,0 +1,315 @@
+Tentativo di caricamento pagina...
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/login/page.jsp -> document
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/login/page.jsp
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/css/onsenui/onsenui.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/css/onsenui/onsen-css-components.min.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/csrfguard -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery-1.7.1.js -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.simplemodal-1.4.3.js -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/device.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/js/webcomponents-lite.js -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/js/onsenui/onsenui.min.js?ver=6.7.2.20250507.P6 -> script
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/css/onsenui/onsenui.css?ver=6.7.2.20250507.P6
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/css/onsenui/ionicons/css/ionicons.min.css -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/css/onsenui/material-design-iconic-font/css/material-design-iconic-font.min.css -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/touch/css/onsenui/font_awesome/css/font-awesome.min.css -> stylesheet
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/css/onsenui/onsen-css-components.min.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/css/onsenui/ionicons/css/ionicons.min.css
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/css/onsenui/material-design-iconic-font/css/material-design-iconic-font.min.css
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/css/onsenui/font_awesome/css/font-awesome.min.css
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery-1.7.1.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.simplemodal-1.4.3.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/device.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/js/webcomponents-lite.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/touch/js/onsenui/onsenui.min.js?ver=6.7.2.20250507.P6
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/login-bkg.webp -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/Marchio_costruzione2023_2.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/workfolder/SystemFiles/DefaultCompany/Images/main-image.png?ver=?ver=6.7.2.20250507.P6 -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/Marchio_costruzione2023_2.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/workfolder/SystemFiles/DefaultCompany/Images/main-image.png?ver=?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/login-bkg.webp
+Response status: 200
+URL corrente: http://172.16.90.4:8080/adiJed/ui/login/page.jsp
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico -> other
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico
+Titolo pagina: Adiuto - We Value Your Knowledge
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/login.do;jsessionid=FD400A369A6EE71CF495D60E19D97A38 -> document
+Risposta: 302 http://172.16.90.4:8080/adiJed/ui/login.do;jsessionid=FD400A369A6EE71CF495D60E19D97A38
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/home.do -> document
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/home.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/csrfguard -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/kendo/jquery.min.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery-ui-1.8.23.custom.min.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jQuery.bubbletip-1.0.6.js -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/bubbletip.css -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/lang.jsp?ver=6.7.2.20250507.P6.it -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.ui.touch-punch.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.hammer.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.ui.datepicker-it.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.simplemodal-1.4.3.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.nanoscroller.min.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.noty.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.transit.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.tools.min.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.inputmask.bundle.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.contextMenu.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.ui.position.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/iscroll.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/sammy.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/knockout-2.0.0.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/device.js?ver=6.7.2.20250507.P6 -> script
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/device.js?ver=6.7.2.20250507.P6
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/common.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/visual.query.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/ui-debug.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/ui-intro.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/ui-key-manager.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/db.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/history.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/base64.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/kendo/kendo.web.min.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/kendo/console.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/jquery.wookmark.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/commonTraining.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/intro.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/iter.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/families-tree.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/voix.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/kendo/kendo.common.min.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/kendo/kendo.default.min.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/kendo.adijed.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/jquery.contextMenu.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/jquery.noty.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/nanoscroller.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/jquery-ui-1.8.23.custom.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/animate.min.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/common.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/waiting.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/homepage.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/introjs.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/font_awesome/font-awesome.min.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/plugins.js?ver=6.7.2.20250507.P6 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/main.css?ver=6.7.2.20250507.P6 -> stylesheet
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/Marchio_costruzione2023_2.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/Marchio_costruzione2023_2.png
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/confirm-dialog.js?ver=6.7 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/confirm-dialog-impl.js?ver=6.7 -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/plugins/adijed/aSyncFunction.js -> script
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/notification.js -> script
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/bubbletip.css
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/kendo/jquery.min.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/kendo/kendo.default.min.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/kendo/kendo.common.min.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/kendo.adijed.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/jquery.contextMenu.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/jquery.noty.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/jquery-ui-1.8.23.custom.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/nanoscroller.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/animate.min.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/waiting.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/introjs.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/common.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/font_awesome/font-awesome.min.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/homepage.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/main.css?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jQuery.bubbletip-1.0.6.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/lang.jsp?ver=6.7.2.20250507.P6.it
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.simplemodal-1.4.3.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.ui.touch-punch.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.nanoscroller.min.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.ui.datepicker-it.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery-ui-1.8.23.custom.min.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.tools.min.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.ui.position.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.transit.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.noty.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.contextMenu.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/sammy.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/iscroll.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.hammer.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.inputmask.bundle.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/visual.query.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/ui-debug.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/ui-intro.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/history.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/db.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/ui-key-manager.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/base64.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/knockout-2.0.0.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/jquery.wookmark.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/kendo/console.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/intro.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/commonTraining.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/iter.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/voix.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/plugins.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/confirm-dialog.js?ver=6.7
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/families-tree.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/confirm-dialog-impl.js?ver=6.7
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/common.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/kendo/kendo.web.min.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/notification.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/plugins/adijed/aSyncFunction.js
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/kendo/languages/kendo.it-IT.js -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/kendo/cultures/kendo.culture.it-IT.min.js -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/kendo/languages/kendo.it-IT.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/kendo/cultures/kendo.culture.it-IT.min.js
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/logo/adiuto_logo_144_64.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/home_w_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/new-document.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/query_w_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/workflow_w_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/messages_w_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/info_w_18.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/logout_w_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/pin.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/home_w_22.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/logo/adiuto_logo_144_64.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/query_w_22.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/new-document.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/workflow_w_22.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/messages_w_22.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/pin.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/info_w_18.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/logout_w_22.png
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=false -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/async-detection.js -> script
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/save-settings.do -> xhr
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234 -> xhr
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/home.do?main=true -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/async-detection.js
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/save-settings.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/get-themes.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/save-settings.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/save-settings.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/get-themes.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/themes/002-light-greenblue.css -> stylesheet
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/save-settings.do
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/themes/002-light-greenblue.css
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/save-settings.do
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico -> other
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=true -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/home_w_22_white.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/unpin.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/home_w_22_white.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/unpin.png
+Navigazione alla home page completata.
+Siamo sulla pagina home. Facendo screenshot...
+Risposta: 200 http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Screenshot salvato come screenshot.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=false
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/open.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/wf.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/home/password_16.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/themes.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/themes.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/open.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/wf.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/home/password_16.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=true
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/home.do?main=true
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/load-settings.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/load-settings.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY15840_C_TAV_02_J1400.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_03_J1436.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_02_J1436.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_01_J1436.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16627_F_J1435.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY15897_C_J1405.PDF -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/workfolder/SystemFiles/1001/Images/main-image.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY15840_C_TAV_02_J1400.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_03_J1436.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_01_J1436.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16627_F_J1435.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY16275_C_TAV_02_J1436.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/getDocumentIcon?fileName=LY15897_C_J1405.PDF
+Risposta: 200 http://172.16.90.4:8080/adiJed/workfolder/SystemFiles/1001/Images/main-image.png
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Trovati 2 elementi a con href contenente 'pdf'. Scaricando...
+PDF Manuale_Adiuto_utente.pdf scaricato.
+PDF Manuale_Aditraining.pdf scaricato.
+Trovati 2590 codici in elenco_codici_studi.xlsx
+Elaborando codice: ATSP001
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: GET http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234 -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: GET http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234 -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=false -> xhr
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: GET http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234 -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/system/checkNotifies?uid=1234
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/system/right-app-content.do?view=false
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/query.filters.do -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/query_white_22.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico -> other
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/query_white_22.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/logo/fav_ico_adiuto.ico
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/query.filters.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/list.js?ver=6.7.2.20250507.P6 -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/js/ui/generic-search.js?ver=6.7.2.20250507.P6 -> xhr
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/back.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/wizfolder.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/svuotaFiltri.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/thumb_bw.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/back.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/wizfolder.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/svuotaFiltri.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/thumb_bw.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/generic-search.js?ver=6.7.2.20250507.P6
+Risposta: 200 http://172.16.90.4:8080/adiJed/js/ui/list.js?ver=6.7.2.20250507.P6
+Richiesta: GET http://172.16.90.4:8080/adiJed/ui/includes/families.jsp -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/includes/families.jsp
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/families-tree.css -> stylesheet
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/families.get-query-families.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/families-tree.css
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/toolbar/find_bkg.png -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/families.get-query-families.do
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/icons/fam-documentale.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/css/kendo/Default/sprite.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/icons/folder-open.png -> image
+Richiesta: GET http://172.16.90.4:8080/adiJed/img/icons/fam-processo.gif -> image
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/toolbar/find_bkg.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/icons/fam-documentale.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/icons/fam-processo.gif
+Risposta: 200 http://172.16.90.4:8080/adiJed/css/kendo/Default/sprite.png
+Risposta: 200 http://172.16.90.4:8080/adiJed/img/icons/folder-open.png
+Errore durante goto: Locator.fill: Error: strict mode violation: locator("input[placeholder*=\"Cerca\"]") resolved to 2 elements:
+    1) <input value="" type="text" id="familyTreeFilter" placeholder="Cerca..." name="familyTreeFilter"/> aka get_by_role("textbox", name="Cerca...")
+    2) <input type="text" id="vq-search-term" placeholder="Cerca nell'albero"/> aka get_by_placeholder("Cerca nell'albero")
+
+Call log:
+  - waiting for locator("input[placeholder*=\"Cerca\"]")
+
+Prova ad aprire l'URL manualmente in un browser.
+Chiudendo il browser...
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
+Richiesta: POST http://172.16.90.4:8080/adiJed/ui/families/fields.get-family-fields.do -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/ui/families/fields.get-family-fields.do
+Richiesta: POST http://172.16.90.4:8080/adiJed/csrfguard -> xhr
+Risposta: 200 http://172.16.90.4:8080/adiJed/csrfguard
