@@ -4,76 +4,14 @@ document.addEventListener('DOMContentLoaded', function(){
   const sidebarToggle = document.getElementById('sidebar-toggle')
   const main = document.getElementById('main')
 
-  // Sidebar toggle functionality
-  function updateSidebar() {
-    const isMobile = window.innerWidth <= 768
-    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768
-    
-    // Always show toggle button
-    sidebarToggle.style.display = 'flex'
-    
-    // Always use overlay mode for consistency
-    sidebar.classList.add('mobile-overlay')
-    sidebar.classList.remove('mobile-hidden')
-    main.classList.remove('sidebar-shift')
-    
-    // Adjust width based on screen size
-    if (isMobile) {
-      sidebar.style.width = '280px'
-    } else if (isTablet) {
-      sidebar.style.width = '300px'
-    } else {
-      sidebar.style.width = '320px'
-    }
-  }
+  // Initialize modern sidebar manager
+  const sidebarManager = new SidebarManager()
 
-  // Toggle sidebar visibility
-  sidebarToggle.addEventListener('click', function() {
-    const isMobile = window.innerWidth <= 768
-    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768
-    
-    if (isMobile) {
-      // Mobile: toggle visibility
-      if (sidebar.classList.contains('mobile-hidden')) {
-        sidebar.classList.remove('mobile-hidden')
-        sidebar.classList.add('mobile-overlay')
-      } else {
-        sidebar.classList.add('mobile-hidden')
-        sidebar.classList.remove('mobile-overlay')
-      }
-    } else if (isTablet) {
-      // Tablet: toggle overlay
-      if (sidebar.classList.contains('mobile-overlay')) {
-        sidebar.classList.remove('mobile-overlay')
-        sidebar.classList.add('mobile-hidden')
-      } else {
-        sidebar.classList.remove('mobile-hidden')
-        sidebar.classList.add('mobile-overlay')
-      }
-    }
+  // Handle window resize for PDF container updates
+  window.addEventListener('resize', () => {
+    const pdfContainer = document.getElementById('pdf-container')
+    updateScrollState(pdfContainer)
   })
-
-  // Close sidebar when clicking outside on mobile/tablet
-  document.addEventListener('click', function(e) {
-    const isMobile = window.innerWidth <= 768
-    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768
-    
-    if ((isMobile || isTablet) && 
-        !sidebar.contains(e.target) && 
-        !sidebarToggle.contains(e.target) && 
-        (sidebar.classList.contains('mobile-overlay'))) {
-      if (isMobile) {
-        sidebar.classList.add('mobile-hidden')
-      }
-      sidebar.classList.remove('mobile-overlay')
-    }
-  })
-
-  // Handle window resize
-  window.addEventListener('resize', updateSidebar)
-  
-  // Initialize
-  updateSidebar()
 
   function el(tag, cls, text){
     const e = document.createElement(tag)
@@ -286,13 +224,16 @@ document.addEventListener('DOMContentLoaded', function(){
         
         const pdfContainer = document.getElementById('pdf-container')
         if(pdfContainer) pdfContainer.innerHTML = '<div id="pdf-placeholder">Caricamento anteprima...</div>'
+        console.log('DEBUG JS: Requesting PDF for fullCode:', fullCode)
         fetch('/api/fetch_pdf_local', {
           method: 'POST', headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ code: fullCode })
         }).then(r => {
+          console.log('DEBUG JS: Fetch response status:', r.status)
           if(!r.ok) return r.json().then(j => Promise.reject(j))
           return r.blob()
         }).then(blob => {
+          console.log('DEBUG JS: Blob received, size:', blob.size)
           const url = URL.createObjectURL(blob)
           const containerEl = document.getElementById('pdf-container')
           if(!containerEl){ console.error('pdf-container missing'); return }
@@ -303,13 +244,17 @@ document.addEventListener('DOMContentLoaded', function(){
           embed.style.width = '100%'
           embed.style.height = '100%'
           containerEl.appendChild(embed)
+          updateScrollState(containerEl)  // Recalculate scrollbar after PDF loads
           const blocker = document.getElementById('pdf-blocker')
           if(blocker) blocker.style.display = 'block'
           setTimeout(()=> URL.revokeObjectURL(url), 60000)
         }).catch(err => {
-          console.error(err)
+          console.error('DEBUG JS: PDF loading error:', err)
           const containerEl = document.getElementById('pdf-container')
-          if(containerEl) containerEl.innerHTML = '<div style="color:red">❌ PDF mancante per: '+fullCode+'</div>'
+          if(containerEl) {
+            containerEl.innerHTML = '<div style="color:red">❌ PDF mancante per: '+fullCode+'</div>'
+            updateScrollState(containerEl)
+          }
         })
       })
       container.appendChild(node)
@@ -326,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function(){
   btn.addEventListener('click', () => {
     // Usa seq.sequence_id che dovrebbe già contenere il codice completo (famiglia + numero)
     const fullSeqCode = seq.sequence_id || seq.code || ''
+    console.log('DEBUG JS: Requesting PDF for fullSeqCode:', fullSeqCode)
     // request PDF from local drawings directory
     fetch('/api/fetch_pdf_local', {
       method: 'POST', headers: {'Content-Type':'application/json'},
@@ -393,29 +339,31 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  // simple drag-to-resize for the sidebar
-  const grip = document.getElementById('resize-grip')
-  let isResizing = false
-  grip.addEventListener('mousedown', (e) => { 
-    isResizing = true 
-    e.preventDefault()
-  })
-  document.addEventListener('mousemove', (e) => {
-    if(!isResizing) return
-    let newW = e.clientX
-    if(newW < 180) newW = 180
-    if(newW > 800) newW = 800
-    sidebar.style.width = newW + 'px'
-  })
-  document.addEventListener('mouseup', () => { isResizing = false })
-
-  // Test resize button
-  const testBtn = document.getElementById('test-resize')
-  if(testBtn) testBtn.addEventListener('click', () => {
-    const current = parseInt(getComputedStyle(sidebar).width)
-    const newW = current + 50
-    sidebar.style.width = newW + 'px'
-    console.log('Test resize to:', newW)
-  })
+  // Force scroll state update and reflow
+  function updateScrollState(container) {
+    if (!container) return
+    
+    // Force reflow by toggling display
+    container.style.display = 'none'
+    container.offsetHeight  // read offsetHeight to trigger reflow
+    container.style.display = ''
+    
+    // Clamp scrollTop to max available scroll
+    if (container.scrollTop > container.scrollHeight - container.clientHeight) {
+      container.scrollTop = Math.max(0, container.scrollHeight - container.clientHeight)
+    }
+  }
+  
+  // ResizeObserver to catch size changes
+  function initScrollObserver() {
+    const pdfContainer = document.getElementById('pdf-container')
+    if (!pdfContainer) return
+    
+    const observer = new ResizeObserver(() => {
+      updateScrollState(pdfContainer)
+    })
+    observer.observe(pdfContainer)
+  }
+  initScrollObserver()
   
 })

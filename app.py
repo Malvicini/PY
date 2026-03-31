@@ -201,8 +201,13 @@ def fetch_pdf_local():
     if not code:
         return jsonify({'error': 'code required'}), 400
 
+    # DEBUG: Log the received code
+    print(f"DEBUG fetch_pdf_local: Received code='{code}'")
+
     # Normalizza il code in maiuscolo
     code = code.upper()
+    
+    print(f"DEBUG fetch_pdf_local: Normalized code='{code}'")
     
     BASE_DIR = os.environ.get('DRAWINGS_DIR', r'H:\96-GESTIONE_STUDI\DISEGNI')
 
