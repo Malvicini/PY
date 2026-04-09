@@ -158,6 +158,7 @@ $env:BROWSER = 'edge'
 2. **Visualizzazione PDF**: Clicca su sequenza per anteprima
 3. **Download manuale**: Pulsante "Apri PDF locale"
 4. **Automazione**: `python runner.py` per processamento massivo
+5. **Azioni rapide**: Top bar con avviso a sinistra e pulsanti "Nuovo studio" / "Aggiungi codice grp." a destra (solo grafica, senza logica)
 
 ## 📦 Dipendenze principali
 
