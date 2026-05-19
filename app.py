@@ -1,13 +1,9 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, send_file, make_response
 from data_loader import DataLoader
-from flask import send_file, make_response
-import io
+from pdf_finder import find_pdf_path
 import requests
-import subprocess
-import sys
 import os
 import json
-import tempfile
 import shlex
 import re
 
@@ -45,6 +41,51 @@ def get_groups_machines_cached():
         })
     _groups_machines_cache = data
     return _groups_machines_cache
+
+
+def _build_http_headers(cookie=None):
+    """Build HTTP headers with User-Agent and optional Cookie.
+    
+    Args:
+        cookie: Raw cookie value (e.g. '223F52...' or 'JSESSIONID=...')
+                If no '=' present, assumes JSESSIONID.
+    
+    Returns:
+        dict with 'User-Agent' and optional 'Cookie' headers
+    """
+    headers = {'User-Agent': 'Raccoglitore/1.0'}
+    if cookie:
+        if '=' not in cookie:
+            cookie = 'JSESSIONID=' + cookie
+        headers['Cookie'] = cookie
+    return headers
+
+
+def _fetch_url_and_respond(url, headers, filename):
+    """Fetch PDF from URL and return Flask response.
+    
+    Args:
+        url: Remote URL to fetch
+        headers: HTTP headers dict
+        filename: Filename for Content-Disposition header
+    
+    Returns:
+        Flask response (bytes) on success, or jsonify error tuple on failure
+    """
+    try:
+        r = requests.get(url, headers=headers, timeout=15, stream=True)
+    except Exception as e:
+        return jsonify({'error': 'request failed', 'detail': str(e)}), 502
+
+    if r.status_code != 200:
+        return jsonify({'error': 'upstream returned error', 'status_code': r.status_code}), 502
+
+    content_type = r.headers.get('Content-Type', 'application/octet-stream')
+    data_bytes = r.content
+    out = make_response(data_bytes)
+    out.headers.set('Content-Type', content_type)
+    out.headers.set('Content-Disposition', f'inline; filename="{filename}"')
+    return out
 
 
 @app.route('/')
@@ -115,34 +156,12 @@ def proxy_pdf():
     """
     data = request.json or {}
     url = data.get('url')
-    cookie = data.get('cookie')
     if not url:
         return jsonify({'error': 'url required'}), 400
 
-    headers = {
-        'User-Agent': 'Raccoglitore/1.0'
-    }
-    if cookie:
-        # allow user to paste just the raw cookie value (e.g. '223F52...')
-        # in that case assume it's the common JSESSIONID
-        if '=' not in cookie:
-            cookie = 'JSESSIONID=' + cookie
-        headers['Cookie'] = cookie
-
-    try:
-        r = requests.get(url, headers=headers, timeout=15, stream=True)
-    except Exception as e:
-        return jsonify({'error': 'request failed', 'detail': str(e)}), 502
-
-    if r.status_code != 200:
-        return jsonify({'error': 'upstream returned error', 'status_code': r.status_code}), 502
-
-    content_type = r.headers.get('Content-Type', 'application/octet-stream')
-    data_bytes = r.content
-    out = make_response(data_bytes)
-    out.headers.set('Content-Type', content_type)
-    out.headers.set('Content-Disposition', 'inline; filename="remote.pdf"')
-    return out
+    cookie = data.get('cookie')
+    headers = _build_http_headers(cookie)
+    return _fetch_url_and_respond(url, headers, 'remote.pdf')
 
 
 @app.route('/api/run_quick_proxy', methods=['POST'])
@@ -162,30 +181,12 @@ def run_quick_proxy():
         return jsonify({'error': 'failed to read quick_test.json', 'detail': str(e)}), 500
 
     url = cfg.get('pdf_url')
-    cookie = cfg.get('cookie')
     if not url:
         return jsonify({'error': 'pdf_url missing in quick_test.json'}), 400
 
-    headers = {'User-Agent': 'Raccoglitore/1.0'}
-    if cookie:
-        if '=' not in cookie:
-            cookie = 'JSESSIONID=' + cookie
-        headers['Cookie'] = cookie
-
-    try:
-        r = requests.get(url, headers=headers, timeout=15, stream=True)
-    except Exception as e:
-        return jsonify({'error': 'request failed', 'detail': str(e)}), 502
-
-    if r.status_code != 200:
-        return jsonify({'error': 'upstream returned error', 'status_code': r.status_code}), 502
-
-    content_type = r.headers.get('Content-Type', 'application/octet-stream')
-    data_bytes = r.content
-    out = make_response(data_bytes)
-    out.headers.set('Content-Type', content_type)
-    out.headers.set('Content-Disposition', 'inline; filename="quick_test.pdf"')
-    return out
+    cookie = cfg.get('cookie')
+    headers = _build_http_headers(cookie)
+    return _fetch_url_and_respond(url, headers, 'quick_test.pdf')
 
 
 @app.route('/api/fetch_pdf_local', methods=['POST'])
@@ -201,76 +202,16 @@ def fetch_pdf_local():
     if not code:
         return jsonify({'error': 'code required'}), 400
 
-    # DEBUG: Log the received code
-    print(f"DEBUG fetch_pdf_local: Received code='{code}'")
-
-    # Normalizza il code in maiuscolo
-    code = code.upper()
+    base_dir = os.environ.get('DRAWINGS_DIR', r'H:\96-GESTIONE_STUDI\DISEGNI')
     
-    print(f"DEBUG fetch_pdf_local: Normalized code='{code}'")
-    
-    BASE_DIR = os.environ.get('DRAWINGS_DIR', r'H:\96-GESTIONE_STUDI\DISEGNI')
-
-    def find_pdf():
-        # Prova a trovare il prefisso controllando quale cartella in DISEGNI corrisponde al codice
-        # Prova in ordine di lunghezza decrescente (5 char, 4 char, 3 char, 2 char)
-        prefisso = None
-        
-        for prefix_len in [5, 4, 3, 2]:
-            test_prefix = code[:prefix_len]
-            test_path = os.path.join(BASE_DIR, test_prefix)
-            if os.path.isdir(test_path):
-                prefisso = test_prefix
-                print(f"DEBUG: Trovato prefisso {prefisso} (lunghezza {prefix_len})")
-                break
-        
-        if not prefisso:
-            # Fallback: estrai solo lettere iniziali
-            prefisso_match = re.match(r'([A-Z]+)', code)
-            if prefisso_match:
-                prefisso = prefisso_match.group(1)
-                print(f"DEBUG: Prefisso estratto da lettere: {prefisso}")
-            else:
-                return None, f'Prefisso non trovato nel codice: {code}'
-        
-        # Cerca SOLO in: BASE_DIR / PREFISSO / CODICE / CODICE.pdf (o .PDF)
-        target_dir = os.path.join(BASE_DIR, prefisso, code)
-        
-        print(f"DEBUG: Cercando PDF per codice={code}, prefisso={prefisso}")
-        print(f"DEBUG: Cercando in: {target_dir}")
-        
-        # Prova sia .pdf che .PDF
-        for ext in ['.pdf', '.PDF']:
-            pdf_path = os.path.join(target_dir, code + ext)
-            print(f"DEBUG: Verificando {pdf_path} - Esiste: {os.path.isfile(pdf_path)}")
-            if os.path.isfile(pdf_path):
-                print(f"DEBUG: Trovato! {pdf_path}")
-                return pdf_path, None
-        
-        # Se il file esatto non trovato, prova qualsiasi PDF nella cartella
-        if os.path.isdir(target_dir):
-            print(f"DEBUG: Cartella {target_dir} esiste, cercando qualsiasi PDF dentro...")
-            try:
-                for fn in os.listdir(target_dir):
-                    if fn.lower().endswith('.pdf'):
-                        full_path = os.path.join(target_dir, fn)
-                        print(f"DEBUG: Trovato PDF alternativo: {full_path}")
-                        return full_path, None
-            except Exception as e:
-                print(f"DEBUG: Errore listando cartella: {e}")
-        
-        # Se non trovato, ritorna errore (SENZA cercare globalmente)
-        print(f"DEBUG: PDF non trovato in {target_dir}")
-        return None, f'PDF non trovato in {target_dir}'
-
-    pdf_path, error = find_pdf()
+    pdf_path, error = find_pdf_path(code, base_dir)
     if error or not pdf_path:
-        error_msg = error or 'PDF non trovato'
-        print(f"DEBUG: Errore - {error_msg}")
+        error_msg = error or 'PDF not found'
+        print(f"DEBUG: Error - {error_msg}")
         return jsonify({'error': error_msg, 'searched_for': code}), 404
 
     try:
-        print(f"DEBUG: Inviando file: {pdf_path}")
+        print(f"DEBUG: Sending file: {pdf_path}")
         return send_file(pdf_path, mimetype='application/pdf', as_attachment=False, download_name=os.path.basename(pdf_path))
     except Exception as e:
         print(f"DEBUG: Exception send_file: {e}")
@@ -316,8 +257,7 @@ def init_drawings():
         for s in seqs:
             seq_code = s.get('sequence_id') or s.get('codice') or ''
             # extract numeric suffix if present
-            import re as _re
-            m = _re.search(r"(\d+)", seq_code)
+            m = re.search(r"(\d+)", seq_code)
             if m:
                 num = m.group(1).lstrip('0') or m.group(1)
                 subname = f"{fam_name_s} {num.zfill(3)}"

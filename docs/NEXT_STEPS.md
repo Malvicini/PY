@@ -50,6 +50,18 @@
 - **Testing Framework**: Add pytest for unit tests of data_loader.py and API endpoints
 - **Security**: Add input validation, rate limiting, and secure credential handling
 
+## Immediate Work (refactor tracking)
+
+- STEP 3: Estrarre PDF lookup logic (in corso)
+   - Obiettivo: spostare la logica di ricerca dei PDF in un modulo dedicato (`pdf_finder.py`) e ridurre la complessità di `app.py`.
+   - Azioni già effettuate: `pdf_finder.py` creato; `fetch_pdf_local()` aggiornato per usare `find_pdf_path()`.
+   - Verifiche richieste: test endpoint `/api/fetch_pdf_local` e comportamento della ricerca file.
+
+- STEP 4: Refactor caching (previsto)
+   - Obiettivo: rimuovere lo stato globale `_groups_machines_cache` e introdurre un piccolo `CacheManager` per incapsulare il caching.
+
+Prima di procedere oltre, queste note sono state salvate: confermi che posso procedere con STEP 4?
+
 ## Missing Features
 - **User Authentication**: Login system for web app access control
 - **Role-Based Access**: Different permissions for viewing vs. downloading
