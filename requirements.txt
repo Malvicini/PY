@@ -2,3 +2,5 @@ pynput
 pyautogui
 pandas
 openpyxl
+Flask
+requests

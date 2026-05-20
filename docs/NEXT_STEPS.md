@@ -52,15 +52,20 @@
 
 ## Immediate Work (refactor tracking)
 
-- STEP 3: Estrarre PDF lookup logic (in corso)
+- STEP 3: Estrarre PDF lookup logic — COMPLETATO
    - Obiettivo: spostare la logica di ricerca dei PDF in un modulo dedicato (`pdf_finder.py`) e ridurre la complessità di `app.py`.
-   - Azioni già effettuate: `pdf_finder.py` creato; `fetch_pdf_local()` aggiornato per usare `find_pdf_path()`.
+   - Azioni già effettuate: `pdf_finder.py` creato; `app.py` aggiornato per usare `find_pdf_path()`.
    - Verifiche richieste: test endpoint `/api/fetch_pdf_local` e comportamento della ricerca file.
 
-- STEP 4: Refactor caching (previsto)
+- STEP 4: Refactor caching — COMPLETATO
    - Obiettivo: rimuovere lo stato globale `_groups_machines_cache` e introdurre un piccolo `CacheManager` per incapsulare il caching.
+   - Azioni già effettuate: `cache_manager.py` creato; `routes.py` usa ora `GroupsMachinesCache`.
 
-Prima di procedere oltre, queste note sono state salvate: confermi che posso procedere con STEP 4?
+- STEP 5: Modularizzare `app.py` — COMPLETATO
+   - Obiettivo: suddividere `app.py` in moduli separati (`config.py`, `helpers.py`, `cache_manager.py`, `routes.py`).
+   - Azioni già effettuate: `app.py` ora è un entrypoint minimale che registra `main_bp`.
+
+Prima di procedere oltre, queste note sono state salvate: il refactor è completato e l'app è stata ricompilata con successo nel venv.
 
 ## Missing Features
 - **User Authentication**: Login system for web app access control

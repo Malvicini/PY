@@ -47,9 +47,14 @@ Update the documentation suite (/docs/*.md files) with accurate information base
 	- `proxy_pdf()` e `run_quick_proxy()` refattorizzati per usare gli helper
 	- Files modificati: `app.py`
 
-- STEP 3: Estrarre PDF lookup logic — IN ATTESA (prossimo passo)
+- STEP 3: Estrarre PDF lookup logic — COMPLETATO
 	- Logica di ricerca PDF spostata in `pdf_finder.py` (creata)
-	- `fetch_pdf_local()` refattorizzato per usare `find_pdf_path()` (in `pdf_finder.py`)
-	- Stato: `pdf_finder.py` creato, `app.py` aggiornato (in parte)
+	- `fetch_pdf_local()` refattorizzato per usare `find_pdf_path()`
+	- Stato: `pdf_finder.py` creato, `app.py` aggiornato
+
+- STEP 4: Refactor caching — COMPLETATO
+	- Cache globale `_groups_machines_cache` estratta in `cache_manager.py`
+	- `routes.py` ora utilizza `GroupsMachinesCache` per i dati `all_groups_machines`
+	- `app.py` è stato ridotto a un entrypoint minimale che registra il blueprint
 
 Note: tutte le modifiche finora sono state effettuate per minimizzare i cambiamenti runtime; gli endpoint principali risultano registrati e testati localmente.
