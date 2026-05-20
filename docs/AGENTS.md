@@ -28,7 +28,7 @@ This repository is a Python/Flask-based tool for managing technical studies and 
 
 - The app is not built around a database; it loads data from Excel and the filesystem.
 - `data_loader.py` is the core data access layer for Excel-based families, sequences, and group/machine data.
-- `app.py` exposes both UI API endpoints and helper endpoints for PDF proxying, local PDF lookup, and cURL replay.
+- `app.py` is now a minimal Flask entrypoint that registers `routes.py`; API endpoints and helpers are defined in `routes.py`, `helpers.py`, and `cache_manager.py`.
 - PDF lookup is intentionally narrow: it uses `DRAWINGS_DIR` and a folder structure based on code prefixes.
 - `static/js/app.js` and `static/js/sidebar-manager.js` drive the client-side behavior.
 - The repository currently has no dedicated test suite or CI files.
