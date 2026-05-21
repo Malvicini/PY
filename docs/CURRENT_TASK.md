@@ -1,10 +1,10 @@
 # Current Task
 
 ## What is Currently Being Worked On
-Performing a full project handover by analyzing the entire codebase and updating all workspace documentation files to reflect the actual implemented features, architecture, and current state.
+Implementare le nuove schermate web per i comandi `Nuovo studio` e `Aggiungi codice grp.`, mantenendo il backend invariato per questa fase.
 
 ## Current Objective
-Update the documentation suite (/docs/*.md files) with accurate information based on code analysis, ensuring consistency and completeness for future AI-assisted development.
+Sviluppare l’interfaccia HTTP e i componenti front-end necessari per la creazione simulata dei nuovi studi e l’aggiunta di gruppi, come primo step prima di collegare i form al salvataggio Excel.
 
 ## Files/Modules Involved
 - `docs/PROJECT_CONTEXT.md`: Updated with actual features from app.py, data_loader.py, frontend code

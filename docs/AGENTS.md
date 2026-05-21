@@ -1,13 +1,13 @@
 # AI Agent Instructions for this repository
 
-This repository is a Python/Flask-based tool for managing technical studies and drawings, with additional automation scripts for downloading and organizing documents.
+This repository is a Python/Flask-based document management and automation tool for technical studies and drawings.
 
 ## Key facts
 
 - Primary runtime language: **Python 3.8+**
 - Platform: **Windows-first** (paths, browser automation, filesystem layout)
 - Main web app entrypoint: `app.py`
-- Data source: Excel workbook `Gestione_Studi_DB_20251010.xlsx`
+- Data source: Excel workbook configured in `config.py`
 - PDF lookup and storage: environment variable `DRAWINGS_DIR` or default `H:\96-GESTIONE_STUDI\DISEGNI`
 - Frontend is vanilla JavaScript + Flask templates under `static/` and `templates/`
 
@@ -18,38 +18,44 @@ This repository is a Python/Flask-based tool for managing technical studies and 
   ```bash
   python app.py
   ```
-- Automation/orchestration scripts include:
-  - `runner.py`
-  - `macro.py`
-  - `macro_1.py`
-  - `adi_fetcher.py`
 
 ## Important repository conventions
 
-- The app is not built around a database; it loads data from Excel and the filesystem.
-- `data_loader.py` is the core data access layer for Excel-based families, sequences, and group/machine data.
-- `app.py` is now a minimal Flask entrypoint that registers `routes.py`; API endpoints and helpers are defined in `routes.py`, `helpers.py`, and `cache_manager.py`.
-- PDF lookup is intentionally narrow: it uses `DRAWINGS_DIR` and a folder structure based on code prefixes.
-- `static/js/app.js` and `static/js/sidebar-manager.js` drive the client-side behavior.
-- The repository currently has no dedicated test suite or CI files.
+- The project is a flat script-based Python workspace, not a packaged library.
+- `app.py` creates the Flask app and registers the `main_bp` blueprint from `routes.py`.
+- `routes.py` contains the majority of API endpoints and web route logic.
+- Core backend modules include:
+  - `config.py` for file paths and constants
+  - `data_loader.py` for Excel data access and caching
+  - `helpers.py` for HTTP and filesystem helpers
+  - `cache_manager.py` for cached groups/machines data
+  - `pdf_finder.py` for local PDF discovery
+- Excel data is loaded at startup and served from memory caches.
+- PDF lookup is intentionally narrow and should continue using the existing code path unless the task explicitly requires changing it.
+- There is no dedicated test suite or CI configuration in this repository.
 
 ## What AI agents should do first
 
-- Preserve the current data-loading and PDF lookup behavior unless the task explicitly requires changing it.
-- Use `requirements.txt` for dependency reference.
-- Prefer small, local changes over large refactors unless asked, because the codebase is a working automation tool.
-- When adding new functionality, keep Windows path assumptions and browser automation in mind.
+- Preserve the current data-loading, PDF lookup, and route behavior unless the task explicitly requires a redesign.
+- Use `requirements.txt` as the dependency source.
+- Prefer small, incremental changes over large refactors.
+- Keep Windows path assumptions and browser automation patterns in mind.
 
 ## Helpful entrypoints for code changes
 
-- `app.py` — main HTTP server, API endpoints, proxy helpers
+- `app.py` — Flask application factory and server startup
+- `routes.py` — API endpoints, PDF serving, proxy, and credential handling
 - `data_loader.py` — Excel parsing and data shaping
-- `runner.py` / `macro.py` — automation workflow and orchestration
-- `create_drawings_structure.py` / `create_drawings_structure_fixed.py` — folder structure creation logic
+- `helpers.py` — request parsing, file sanitization, and HTTP helpers
+- `cache_manager.py` — groups/machines caching logic
+- `pdf_finder.py` — local PDF discovery
+- `runner.py` / `macro_1.py` / `adi_fetcher.py` — automation and download workflows
 - `templates/index.html` — main UI template
+- `static/js/app.js` and `static/js/sidebar-manager.js` — frontend interactions and sidebar logic
 
 ## Useful notes for agents
 
-- Do not assume a package structure; the repository is a flat script-based project.
-- The README contains project context; use it for feature and UX understanding rather than duplicating it.
-- The `static/` assets are minimal and should be updated carefully if UI behavior needs to change.
+- Do not assume a package structure; this is a script-first repository.
+- `routes.py` is the canonical source of current API behavior.
+- The README and `docs/ARCHITECTURE.md` are the main project documentation sources.
+- For validation, prefer running `python app.py` and checking route behavior rather than relying on missing tests.

@@ -3,6 +3,116 @@ document.addEventListener('DOMContentLoaded', function(){
   const sidebar = document.getElementById('sidebar')
   const sidebarToggle = document.getElementById('sidebar-toggle')
   const main = document.getElementById('main')
+  const newStudyButton = document.getElementById('new-study-btn')
+  const addGroupButton = document.getElementById('add-group-btn')
+  const studyInfo = document.getElementById('study-info')
+  const newStudyModal = document.getElementById('new-study-modal')
+  const groupCodeModal = document.getElementById('group-code-modal')
+  const newStudyFamilyInput = document.getElementById('new-study-family')
+  const newStudySequenceInput = document.getElementById('new-study-sequence')
+  const newStudyDescriptionInput = document.getElementById('new-study-description')
+  const newStudyCancel = document.getElementById('new-study-cancel')
+  const newStudySave = document.getElementById('new-study-save')
+  const groupCodeSelectedStudy = document.getElementById('group-code-selected-study')
+  const groupCodeInput = document.getElementById('group-code-value')
+  const groupCodeDescriptionInput = document.getElementById('group-code-description')
+  const groupCodeCancel = document.getElementById('group-code-cancel')
+  const groupCodeSave = document.getElementById('group-code-save')
+
+  let selectedStudy = null
+
+  function setAddGroupButtonState(enabled) {
+    if(addGroupButton) addGroupButton.disabled = !enabled
+  }
+
+  function renderSelectedStudyInfo() {
+    if (!studyInfo) return
+    if (!selectedStudy) {
+      studyInfo.textContent = 'Nessuno studio selezionato. Seleziona uno studio a sinistra per abilitare "Aggiungi codice grp."'
+      return
+    }
+    studyInfo.textContent = `Studio selezionato: ${selectedStudy.family_code || ''}${selectedStudy.sequence_id || ''} — ${selectedStudy.description || selectedStudy.family_name || ''}`
+  }
+
+  function openNewStudyModal() {
+    if (!newStudyModal) return
+    if (newStudyFamilyInput) newStudyFamilyInput.value = ''
+    if (newStudySequenceInput) newStudySequenceInput.value = ''
+    if (newStudyDescriptionInput) newStudyDescriptionInput.value = ''
+    newStudyModal.classList.remove('hidden')
+  }
+
+  function closeNewStudyModal() {
+    if (!newStudyModal) return
+    newStudyModal.classList.add('hidden')
+  }
+
+  function openGroupCodeModal() {
+    if (!groupCodeModal) return
+    if (!selectedStudy) return alert('Seleziona uno studio prima di aggiungere gruppi.')
+    if (groupCodeInput) groupCodeInput.value = ''
+    if (groupCodeDescriptionInput) groupCodeDescriptionInput.value = ''
+    if (groupCodeSelectedStudy) {
+      groupCodeSelectedStudy.textContent = `Studio: ${selectedStudy.family_code || ''}${selectedStudy.sequence_id || ''} — ${selectedStudy.description || ''}`
+    }
+    groupCodeModal.classList.remove('hidden')
+  }
+
+  function closeGroupCodeModal() {
+    if (!groupCodeModal) return
+    groupCodeModal.classList.add('hidden')
+  }
+
+  function selectStudy(node, sequence, family_code, family_name) {
+    document.querySelectorAll('.sequence.selected').forEach(el => el.classList.remove('selected'))
+    node.classList.add('selected')
+    const fullCode = `${family_code || ''}${sequence.sequence_id || ''}`
+    selectedStudy = {
+      family_code,
+      family_name,
+      sequence_id: sequence.sequence_id,
+      fullCode,
+      description: sequence.description || ''
+    }
+    renderSelectedStudyInfo()
+    setAddGroupButtonState(true)
+  }
+
+  function saveNewStudy() {
+    const family = newStudyFamilyInput?.value.trim() || ''
+    const sequence = newStudySequenceInput?.value.trim() || ''
+    const description = newStudyDescriptionInput?.value.trim() || ''
+    if (!family || !sequence) {
+      return alert('Inserisci famiglia e sequenza per il nuovo studio.')
+    }
+    closeNewStudyModal()
+    alert(`Nuovo studio creato (simulazione): ${family}${sequence} — ${description}`)
+    console.log('Simulazione creazione nuovo studio', { family, sequence, description })
+  }
+
+  function saveGroupCode() {
+    if (!selectedStudy) {
+      return alert('Seleziona uno studio prima di aggiungere gruppi.')
+    }
+    const code = groupCodeInput?.value.trim() || ''
+    const description = groupCodeDescriptionInput?.value.trim() || ''
+    if (!code) {
+      return alert('Inserisci il codice gruppo.')
+    }
+    closeGroupCodeModal()
+    alert(`Gruppo aggiunto (simulazione) a ${selectedStudy.fullCode}: ${code} — ${description}`)
+    console.log('Simulazione aggiunta gruppo', { study: selectedStudy, code, description })
+  }
+
+  newStudyButton?.addEventListener('click', openNewStudyModal)
+  addGroupButton?.addEventListener('click', openGroupCodeModal)
+  newStudyCancel?.addEventListener('click', closeNewStudyModal)
+  newStudySave?.addEventListener('click', saveNewStudy)
+  groupCodeCancel?.addEventListener('click', closeGroupCodeModal)
+  groupCodeSave?.addEventListener('click', saveGroupCode)
+
+  renderSelectedStudyInfo()
+  setAddGroupButtonState(false)
 
   // Initialize modern sidebar manager
   const sidebarManager = new SidebarManager()
@@ -213,7 +323,11 @@ document.addEventListener('DOMContentLoaded', function(){
       // Show full code: family_code + sequence_id
       const fullCode = (family_code || '') + s.sequence_id
       const node = el('div','sequence', fullCode + ' — ' + (s.description || ''))
+      if (selectedStudy && selectedStudy.fullCode === fullCode) {
+        node.classList.add('selected')
+      }
       node.addEventListener('click', () => {
+        selectStudy(node, s, family_code, family_name)
         // Load groups and machines details
         if(s.groups_machines){
           // Use preloaded data

@@ -1,46 +1,41 @@
 # Next Steps
 
-## Prioritized Next Actions
-1. **Complete Documentation Updates**: Finish updating NEXT_STEPS.md and create ARCHITECTURE.md
-2. **Fix Virtual Environment**: Resolve venv activation failure (exit code 1) - recreate if corrupted
-3. **Verify App Execution**: Start Flask server and test core API endpoints (/api/families, /api/sequences, /api/fetch_pdf_local)
-4. **Test PDF Features**: Validate local PDF lookup, proxy endpoints, and embedded viewer
-5. **Check Automation Scripts**: Test runner.py orchestration and macro_1.py individual execution
-6. **Validate Frontend**: Ensure search, filtering, and responsive UI work correctly
+## Immediate UI Development
+1. Implementare la schermata di creazione del nuovo studio.
+   - Aprire una modale quando si clicca `Nuovo studio`.
+   - Inserire famiglia, sequenza e descrizione.
+   - Non salvare ancora in Excel: mantenere il comportamento come simulazione locale.
+2. Implementare la logica di selezione studio a sinistra.
+   - Evidenziare la sequenza cliccata nella sidebar.
+   - Mostrare un riepilogo dello studio selezionato.
+3. Abilitare `Aggiungi codice grp.` solo quando uno studio è selezionato.
+   - Se non c'è selezione, impedire l’apertura della modale e mostrare un messaggio.
+   - Se c’è selezione, aprire una seconda modale per aggiungere un gruppo.
+4. Mantenere il backend invariato per ora.
+   - Nessuna scrittura su `Gestione_Studi_DB_20251010.xlsx`.
+   - La fase successiva sarà collegare le nuove schermate ai nuovi endpoint.
 
-## Suggested Implementation Order
-1. **Documentation Completion**
-   - Finalize NEXT_STEPS.md with accurate priorities
-   - Create ARCHITECTURE.md with system architecture details
-   - Ensure all docs are consistent and based on actual code
+## Implementation Plan
+1. Aggiornare `templates/index.html`.
+   - aggiungere `Nuovo studio` e `Aggiungi codice grp.` con ID e abilitazione condizionale.
+   - aggiungere area di stato studio selezionato.
+   - aggiungere due modali HTML per la creazione dello studio e l’aggiunta del gruppo.
+2. Aggiornare `static/js/app.js`.
+   - gestire lo stato `selectedStudy`.
+   - rendere selezionabile la sequenza cliccata e mantenere l’evidenziazione.
+   - aprire/chiudere le modali e simulare la creazione.
+3. Aggiornare `static/css/style.css`.
+   - aggiungere stili per la selezione attiva, il banner informativo e le modali.
+4. Verificare l’interfaccia.
+   - testare l’apertura e chiusura dei modali.
+   - verificare che `Aggiungi codice grp.` sia disabilitato finché non si seleziona uno studio.
+   - verificare che il riepilogo dello studio selezionato venga mostrato.
 
-2. **Environment Setup**
-   - Recreate virtual environment if activation fails
-   - Install dependencies from requirements.txt
-   - Test basic Python execution and imports
-
-3. **Core Functionality Testing**
-   - Start Flask server (python app.py)
-   - Test Excel data loading and API responses
-   - Verify PDF serving from local filesystem
-   - Test proxy endpoints with sample URLs
-
-4. **Frontend Validation**
-   - Load web interface and test navigation
-   - Verify search and filtering functionality
-   - Test PDF embedding and viewer controls
-   - Check responsive sidebar behavior
-
-5. **Automation Validation**
-   - Test macro_1.py with sample codes (requires ADI access)
-   - Run runner.py with small test dataset
-   - Verify progress saving and interruption handling
-   - Test Selenium-based ADI fetching
-
-6. **Integration Testing**
-   - End-to-end test: Excel data → Web UI → PDF display
-   - Test folder creation functionality
-   - Validate cURL replay and proxy features
+## Follow-up Work
+- creare gli endpoint backend per salvare nei fogli Excel.
+- collegare le modali ai nuovi endpoint API.
+- aggiungere validazione lato server e messaggi di errore.
+- testare il salvataggio reale in `Gestione_Studi_DB_20251010.xlsx`.
 
 ## Refactors to Consider
 - **Modular Architecture**: Split large files (app.py has many endpoints) into separate modules

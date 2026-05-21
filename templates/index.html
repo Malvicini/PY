@@ -25,10 +25,13 @@
         <section id="content-area" style="display:flex;gap:12px;align-items:stretch">
           <div id="pdf-preview" style="flex:1 1 auto;border-left:1px solid var(--border);padding:8px;min-height:70vh;display:flex;flex-direction:column;">
             <div class="top-bar">
+              <div id="study-info" class="study-info study-info-inline">
+                Nessuno studio selezionato. Seleziona uno studio a sinistra per abilitare "Aggiungi codice grp."
+              </div>
               <span class="top-bar-text">Avviso! i PDF in questa applicazione non sono allineati su Adiuto, Seguire Email Malvicini</span>
               <div class="header-actions">
-                <button class="header-btn">Nuovo studio</button>
-                <button class="header-btn">Aggiungi codice grp.</button>
+                <button id="new-study-btn" class="header-btn">Nuovo studio</button>
+                <button id="add-group-btn" class="header-btn" disabled>Aggiungi codice grp.</button>
               </div>
             </div>
             <div class="pdf-toolbar" style="margin-bottom:8px;">
@@ -47,6 +50,48 @@
     </div>
     <script src="/static/js/sidebar-manager.js"></script>
     <script src="/static/js/app.js"></script>
+
+    <div id="new-study-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Nuovo studio</h3>
+        <div>
+          <label>Famiglia</label>
+          <input id="new-study-family" type="text" placeholder="Es. FAM01" />
+        </div>
+        <div>
+          <label>Sequenza</label>
+          <input id="new-study-sequence" type="text" placeholder="Es. 001" />
+        </div>
+        <div>
+          <label>Descrizione</label>
+          <input id="new-study-description" type="text" placeholder="Descrizione studio" />
+        </div>
+        <div class="modal-actions">
+          <button id="new-study-cancel" class="header-btn">Annulla</button>
+          <button id="new-study-save" class="header-btn">Crea studio</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="group-code-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Aggiungi codice gruppo</h3>
+        <div id="group-code-selected-study" class="selected-study-summary"></div>
+        <div>
+          <label>Codice gruppo</label>
+          <input id="group-code-value" type="text" placeholder="Es. GRP001" />
+        </div>
+        <div>
+          <label>Descrizione gruppo</label>
+          <input id="group-code-description" type="text" placeholder="Descrizione gruppo" />
+        </div>
+        <div class="modal-actions">
+          <button id="group-code-cancel" class="header-btn">Annulla</button>
+          <button id="group-code-save" class="header-btn">Aggiungi</button>
+        </div>
+      </div>
+    </div>
+
     <!-- simple modal for credentials -->
     <div id="cred-modal" class="modal hidden">
       <div class="modal-content">

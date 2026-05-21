@@ -25,6 +25,11 @@ body{margin:0;font-family:Segoe UI,Roboto,Arial,Helvetica,sans-serif;background:
 .sequences{margin-left:38px;margin-top:6px}
 .sequence{padding:8px 10px;border-radius:6px;margin-bottom:6px;background:var(--card);border:1px solid var(--border);cursor:pointer;color:var(--text)}
 .sequence:hover{background:var(--hover)}
+.sequence.selected{background:#255b8d;border-color:#5aaeff}
+.study-info{padding:10px 12px;margin:0 12px 0 0;border:1px solid #4a8eff;border-radius:8px;background:#242f41;color:#d8e6ff;max-width:35%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.study-info-inline{margin:0;flex:1 1 auto;min-width:220px}
+.header-btn:disabled{opacity:0.45;cursor:not-allowed}
+.selected-study-summary{margin-bottom:10px;padding:10px;background:rgba(90,174,255,0.08);border:1px solid rgba(90,174,255,0.2);border-radius:6px;color:#e6f4ff}
 .hidden{display:none}
 
 .study-detail{background:var(--card);padding:16px;border-radius:8px;border:1px solid var(--border);min-height:220px;color:var(--text)}
@@ -149,6 +154,7 @@ header {
   background: var(--card);
   flex-shrink: 0;
   margin-bottom: 6px;
+  gap: 12px;
 }
 
 .top-bar-text {

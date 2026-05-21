@@ -94,9 +94,10 @@ Documentation quality rules:
 Project-specific guidance:
 
 - This repository is Windows-first and script-based; preserve path assumptions and local filesystem behavior.
-- The web app entrypoint is `app.py`; it now registers a Flask blueprint from `routes.py`.
+- The web app entrypoint is `app.py`; it creates a Flask app and registers `main_bp` from `routes.py`.
 - Core backend modules include `config.py`, `helpers.py`, `cache_manager.py`, `pdf_finder.py`, and `data_loader.py`.
 - Use `DRAWINGS_DIR` or the default `H:\96-GESTIONE_STUDI\DISEGNI` for PDF lookup.
 - Keep Excel loading and PDF lookup behavior unchanged unless the task explicitly requires a redesign.
 - Prefer small, incremental changes and update `/docs/AGENTS.md`, `/docs/CURRENT_TASK.md`, `/docs/NEXT_STEPS.md`, and `/docs/ARCHITECTURE.md` when architecture or workflow changes.
 - When there is no test suite, rely on code compilation and running `app.py` for validation.
+- Prefer `docs/AGENTS.md` as the primary AI instruction file for this repository.
