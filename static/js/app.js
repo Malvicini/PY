@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function(){
   const newStudyCancel = document.getElementById('new-study-cancel')
   const newStudySave = document.getElementById('new-study-save')
   const groupCodeSelectedStudy = document.getElementById('group-code-selected-study')
-  const groupCodeInput = document.getElementById('group-code-value')
-  const groupCodeDescriptionInput = document.getElementById('group-code-description')
+  const groupCodeExisting = document.getElementById('group-code-existing')
+  const groupCodeAddRow = document.getElementById('group-code-add-row')
   const groupCodeCancel = document.getElementById('group-code-cancel')
   const groupCodeSave = document.getElementById('group-code-save')
 
@@ -47,14 +47,76 @@ document.addEventListener('DOMContentLoaded', function(){
     newStudyModal.classList.add('hidden')
   }
 
+  function getStudyRelatedItems() {
+    if (!selectedStudy || !window.allGroupsMachines) return []
+    return window.allGroupsMachines.filter(item => {
+      const codice = item.cod ? item.cod.toString().toLowerCase() : ''
+      const seq = item.pro !== undefined && item.pro !== null ? item.pro.toString().padStart(3, '0') : ''
+      const articolo = item.articolo !== undefined && item.articolo !== null ? item.articolo.toString().trim() : ''
+      return codice === (selectedStudy.family_code || '').toLowerCase() &&
+        seq === (selectedStudy.sequence_id || '') &&
+        articolo !== '' &&
+        articolo.toLowerCase() !== 'nan'
+    })
+  }
+
+  function createGroupCodeRow(item = {}) {
+    const row = document.createElement('div')
+    row.className = 'group-code-row'
+    const codeInput = document.createElement('input')
+    codeInput.type = 'text'
+    codeInput.value = item.articolo || ''
+    codeInput.placeholder = 'Codice'
+    const typeSelect = document.createElement('select')
+    const optionGroup = document.createElement('option')
+    optionGroup.value = 'gruppo'
+    optionGroup.textContent = 'Gruppo'
+    const optionMachine = document.createElement('option')
+    optionMachine.value = 'macchina'
+    optionMachine.textContent = 'Macchina'
+    typeSelect.appendChild(optionGroup)
+    typeSelect.appendChild(optionMachine)
+    typeSelect.value = item.tipo ? item.tipo.toLowerCase().includes('macchina') ? 'macchina' : 'gruppo' : 'gruppo'
+    const descriptionInput = document.createElement('input')
+    descriptionInput.type = 'text'
+    descriptionInput.value = item.desart || ''
+    descriptionInput.placeholder = 'Descrizione'
+    const removeButton = document.createElement('button')
+    removeButton.type = 'button'
+    removeButton.className = 'group-code-remove'
+    removeButton.textContent = 'Rimuovi'
+    removeButton.addEventListener('click', () => {
+      row.remove()
+    })
+    row.appendChild(codeInput)
+    row.appendChild(typeSelect)
+    row.appendChild(descriptionInput)
+    row.appendChild(removeButton)
+    return row
+  }
+
+  function renderGroupCodeRows(items) {
+    if (!groupCodeExisting) return
+    groupCodeExisting.innerHTML = ''
+    if (!items || items.length === 0) {
+      const empty = document.createElement('div')
+      empty.textContent = 'Nessun codice gruppo/macchina collegato a questo studio.'
+      empty.style.color = 'var(--text-secondary)'
+      groupCodeExisting.appendChild(empty)
+      return
+    }
+    items.forEach(item => {
+      groupCodeExisting.appendChild(createGroupCodeRow(item))
+    })
+  }
+
   function openGroupCodeModal() {
     if (!groupCodeModal) return
     if (!selectedStudy) return alert('Seleziona uno studio prima di aggiungere gruppi.')
-    if (groupCodeInput) groupCodeInput.value = ''
-    if (groupCodeDescriptionInput) groupCodeDescriptionInput.value = ''
     if (groupCodeSelectedStudy) {
       groupCodeSelectedStudy.textContent = `Studio: ${selectedStudy.family_code || ''}${selectedStudy.sequence_id || ''} — ${selectedStudy.description || ''}`
     }
+    renderGroupCodeRows(getStudyRelatedItems())
     groupCodeModal.classList.remove('hidden')
   }
 
@@ -90,19 +152,35 @@ document.addEventListener('DOMContentLoaded', function(){
     console.log('Simulazione creazione nuovo studio', { family, sequence, description })
   }
 
+  function collectGroupCodeModalValues() {
+    const rows = groupCodeExisting ? Array.from(groupCodeExisting.querySelectorAll('.group-code-row')) : []
+    return rows.map(row => {
+      const inputs = row.querySelectorAll('input, select')
+      return {
+        articolo: inputs[0]?.value.trim() || '',
+        tipo: inputs[1]?.value || 'gruppo',
+        desart: inputs[2]?.value.trim() || ''
+      }
+    }).filter(item => item.articolo)
+  }
+
   function saveGroupCode() {
     if (!selectedStudy) {
       return alert('Seleziona uno studio prima di aggiungere gruppi.')
     }
-    const code = groupCodeInput?.value.trim() || ''
-    const description = groupCodeDescriptionInput?.value.trim() || ''
-    if (!code) {
-      return alert('Inserisci il codice gruppo.')
+    const existingValues = collectGroupCodeModalValues()
+    if (existingValues.length === 0) {
+      return alert('Inserisci almeno un codice gruppo o modifica quelli esistenti.')
     }
     closeGroupCodeModal()
-    alert(`Gruppo aggiunto (simulazione) a ${selectedStudy.fullCode}: ${code} — ${description}`)
-    console.log('Simulazione aggiunta gruppo', { study: selectedStudy, code, description })
+    alert(`Modifiche salvate (simulazione) per ${selectedStudy.fullCode}. Total items: ${existingValues.length}`)
+    console.log('Simulazione salvataggio codici gruppo/macchina', { study: selectedStudy, items: existingValues })
   }
+
+  groupCodeAddRow?.addEventListener('click', () => {
+    if (!groupCodeExisting) return
+    groupCodeExisting.appendChild(createGroupCodeRow())
+  })
 
   newStudyButton?.addEventListener('click', openNewStudyModal)
   addGroupButton?.addEventListener('click', openGroupCodeModal)

@@ -29,6 +29,11 @@ body{margin:0;font-family:Segoe UI,Roboto,Arial,Helvetica,sans-serif;background:
 .study-info{padding:10px 12px;margin:0 12px 0 0;border:1px solid #4a8eff;border-radius:8px;background:#242f41;color:#d8e6ff;max-width:35%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .study-info-inline{margin:0;flex:1 1 auto;min-width:220px}
 .header-btn:disabled{opacity:0.45;cursor:not-allowed}
+.group-code-existing{max-height:180px;overflow:auto;margin-bottom:10px;border:1px solid rgba(90,174,255,0.2);border-radius:6px;padding:8px;background:rgba(90,174,255,0.04)}
+.group-code-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px}
+.group-code-row input{width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--sidebar);color:var(--text)}
+.group-code-row select{width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--sidebar);color:var(--text)}
+.group-code-remove{padding:6px 10px;background:#a63434;color:#fff;border:none;border-radius:4px;cursor:pointer}
 .selected-study-summary{margin-bottom:10px;padding:10px;background:rgba(90,174,255,0.08);border:1px solid rgba(90,174,255,0.2);border-radius:6px;color:#e6f4ff}
 .hidden{display:none}
 

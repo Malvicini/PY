@@ -31,7 +31,7 @@
               <span class="top-bar-text">Avviso! i PDF in questa applicazione non sono allineati su Adiuto, Seguire Email Malvicini</span>
               <div class="header-actions">
                 <button id="new-study-btn" class="header-btn">Nuovo studio</button>
-                <button id="add-group-btn" class="header-btn" disabled>Aggiungi codice grp.</button>
+                <button id="add-group-btn" class="header-btn" disabled>Aggiungi / Modifica codice grp.</button>
               </div>
             </div>
             <div class="pdf-toolbar" style="margin-bottom:8px;">
@@ -75,22 +75,13 @@
 
     <div id="group-code-modal" class="modal hidden">
       <div class="modal-content">
-        <h3>Aggiungi codice gruppo</h3>
+        <h3>Aggiungi / Modifica codici gruppo</h3>
         <div id="group-code-selected-study" class="selected-study-summary"></div>
-        <div>
-          <label>Codice gruppo</label>
-          <input id="group-code-value" type="text" placeholder="Es. GRP001" />
+        <div id="group-code-existing" class="group-code-existing"></div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+          <button id="group-code-add-row" class="header-btn">Aggiungi riga</button>
         </div>
-        <div>
-          <label>Descrizione gruppo</label>
-          <input id="group-code-description" type="text" placeholder="Descrizione gruppo" />
-        </div>
-        <div class="modal-actions">
-          <button id="group-code-cancel" class="header-btn">Annulla</button>
-          <button id="group-code-save" class="header-btn">Aggiungi</button>
-        </div>
-      </div>
-    </div>
+
 
     <!-- simple modal for credentials -->
     <div id="cred-modal" class="modal hidden">
