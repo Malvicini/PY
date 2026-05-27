@@ -1,3 +1,8 @@
+import getpass
+import os
+from datetime import date
+
+import openpyxl
 import pandas as pd
 
 
@@ -121,6 +126,101 @@ class DataLoader:
                 'description': str(row.get(desc_col, '')).strip(),
             })
         return sequences
+
+    def get_next_progressivo(self, family_code: str):
+        if self._sequences is None:
+            self._load()
+        df = self._sequences
+        if df is None or df.empty:
+            return '001'
+
+        fam_col = None
+        prog_col = None
+        for c in df.columns:
+            lc = c.lower()
+            if lc == 'codice' or 'cod' in lc and fam_col is None:
+                fam_col = c
+            if lc == 'progressivo' or 'prog' in lc:
+                prog_col = c
+        if fam_col is None:
+            fam_col = df.columns[1] if len(df.columns) > 1 else df.columns[0]
+        if prog_col is None:
+            prog_col = next((c for c in df.columns if 'progress' in c.lower() or 'prog' in c.lower()), df.columns[2] if len(df.columns) > 2 else df.columns[0])
+
+        filtered = df[df[fam_col].astype(str).str.strip().str.upper() == str(family_code).strip().upper()]
+        max_prog = 0
+        for _, row in filtered.iterrows():
+            value = row.get(prog_col, '')
+            if pd.isna(value) or str(value).strip() == '':
+                continue
+            try:
+                item = int(str(value).strip())
+                max_prog = max(max_prog, item)
+            except ValueError:
+                continue
+        return str(max_prog + 1).zfill(3)
+
+    def create_new_study(self, family_code: str, description: str, user: str = None, created_date: str = None):
+        if created_date is None:
+            created_date = date.today()
+        if user is None:
+            try:
+                user = os.environ.get('USERNAME') or os.environ.get('USER') or getpass.getuser() or ''
+            except Exception:
+                user = ''
+
+        family_code = str(family_code).strip()
+        if not family_code:
+            raise ValueError('family_code is required')
+
+        valid_codes = {str(f.get('family_code', '')).strip().upper() for f in self.get_families()}
+        if family_code.upper() not in valid_codes:
+            raise ValueError(f'family_code "{family_code}" is not a valid family')
+
+        wb = openpyxl.load_workbook(self.excel_path)
+        if 'Studi' not in wb.sheetnames:
+            raise ValueError('Sheet "Studi" not found in workbook')
+        ws = wb['Studi']
+
+        headers = [str(cell.value).strip().lower() if cell.value is not None else '' for cell in ws[1]]
+        header_index = {name: idx + 1 for idx, name in enumerate(headers)}
+
+        idx_id = header_index.get('id', 1)
+        idx_codice = header_index.get('codice', 2)
+        idx_progressivo = header_index.get('progressivo', 3)
+        idx_descrizione = header_index.get('descrizione', 4)
+        idx_data = header_index.get('data', 5)
+        idx_utente = header_index.get('utente', 6)
+        idx_datamodifica = header_index.get('datamodifica', None)
+        idx_utentemodifica = header_index.get('utentemodifica', None)
+        idx_colonna4 = header_index.get('colonna4', 12)
+
+        progressivo = self.get_next_progressivo(family_code)
+        full_code = f'{family_code}{progressivo}'
+
+        target_row = ws.max_row + 1
+        ws.cell(row=target_row, column=idx_id, value='-')
+        ws.cell(row=target_row, column=idx_codice, value=family_code)
+        ws.cell(row=target_row, column=idx_progressivo, value=progressivo)
+        ws.cell(row=target_row, column=idx_descrizione, value=description or '')
+        ws.cell(row=target_row, column=idx_data, value=created_date)
+        ws.cell(row=target_row, column=idx_utente, value=user or '')
+        if idx_datamodifica:
+            ws.cell(row=target_row, column=idx_datamodifica, value=created_date)
+        if idx_utentemodifica:
+            ws.cell(row=target_row, column=idx_utentemodifica, value=user or '')
+        ws.cell(row=target_row, column=idx_colonna4, value=full_code)
+
+        wb.save(self.excel_path)
+        self._sequences = None
+        return {
+            'family_code': family_code,
+            'progressivo': progressivo,
+            'description': description or '',
+            'date': created_date.strftime('%d/%m/%Y') if hasattr(created_date, 'strftime') else str(created_date),
+            'user': user or '',
+            'full_code': full_code,
+        }
 
     def get_groups_machines(self):
         if self._groups_machines is None:

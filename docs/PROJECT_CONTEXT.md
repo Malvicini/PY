@@ -71,6 +71,7 @@ Raccoglitore is a Python/Flask-based web application for managing technical stud
 ## Brief Explanation of Main Folders
 - **static/**: CSS styles (dark theme), JavaScript frontend code (app.js, sidebar-manager.js)
 - **templates/**: Flask HTML templates (index.html with responsive UI)
+- **particolari_vecchi/**: Nuova app Flask separata per ricerca e download file in archivio particolari, avviabile su porta 9000 con `start_server.bat`
 - **downloads/**: Temporary storage for automation downloads
 - **Root scripts**: Various automation and utility Python files (macro_1.py, runner.py, adi_fetcher.py)
 - **Excel files**: Data sources (Gestione_Studi_DB_20251010.xlsx for main data, elenco_codici_studi.xlsx for automation lists)

@@ -52,6 +52,17 @@ H:\96-GESTIONE_STUDI\PY\
 ├── 📄 create_drawings_structure*.py  # Creazione struttura cartelle
 ├── 📄 requirements.txt          # Dipendenze Python
 ├── 📄 quick_test.json           # Configurazione test ADI
+├── 📁 particolari_vecchi/       # App separata per ricerca e download archivio particolari
+│   ├── 📄 app.py
+│   ├── 📄 routes.py
+│   ├── 📄 start_server.bat
+│   ├── 📁 templates/
+│   │   └── 📄 index.html
+│   └── 📁 static/
+│       ├── 📁 css/
+│       │   └── 📄 style.css
+│       └── 📁 js/
+│           └── 📄 app.js
 ├── 📁 static/                   # Asset statici
 │   ├── 📁 css/
 │   │   └── 📄 style.css         # Stili dark theme

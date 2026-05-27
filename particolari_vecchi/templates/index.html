@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Archivio locale del malvo</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Archivio locale del malvo</p>
+          <h1>Ricerca file in archivio</h1>
+          <p class="subtitle">Cerca un codice e scarica i file trovati all'interno di D:\home\Jobs Malvicini\JOBS\ARCHIVIO-JOBS-PARTICOLARI\test_di_esportazione\exp</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="badge">Server separato</span>
+          <span class="badge badge-secondary">Porta 9000</span>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="search-panel">
+          <form id="search-form" class="search-form">
+            <label for="search-input">Codice da cercare</label>
+            <div class="search-row">
+              <input id="search-input" name="search" type="search" placeholder="Es. 123456, AB123, 0001" autocomplete="off" />
+              <button type="submit">Cerca</button>
+            </div>
+          </form>
+          <div class="search-hint">Usa più criteri con asterisco o spazi, ad esempio <strong>039*carter*</strong> trova file contenenti sia 039 che carter.</div>
+        </section>
+
+        <section class="results-panel">
+          <div class="results-header">
+            <div>
+              <span id="results-count">Nessuna ricerca ancora eseguita</span>
+              <p id="status-message" class="status-message"></p>
+            </div>
+            <button id="clear-button" class="secondary-button">Pulisci</button>
+          </div>
+          <div id="file-list" class="file-list"></div>
+        </section>
+      </main>
+    </div>
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

@@ -34,8 +34,20 @@ document.addEventListener('DOMContentLoaded', function(){
     studyInfo.textContent = `Studio selezionato: ${selectedStudy.family_code || ''}${selectedStudy.sequence_id || ''} — ${selectedStudy.description || selectedStudy.family_name || ''}`
   }
 
+  function populateNewStudyFamilyOptions() {
+    if (!newStudyFamilyInput || !window.allFamilies) return
+    const defaultOption = '<option value="">Seleziona famiglia</option>'
+    const options = window.allFamilies.map(fam => {
+      const code = fam.family_code || fam.family_id || ''
+      const name = fam.family_name || ''
+      return `<option value="${code}">${code}${name ? ' — ' + name : ''}</option>`
+    }).join('')
+    newStudyFamilyInput.innerHTML = defaultOption + options
+  }
+
   function openNewStudyModal() {
     if (!newStudyModal) return
+    populateNewStudyFamilyOptions()
     if (newStudyFamilyInput) newStudyFamilyInput.value = ''
     if (newStudySequenceInput) newStudySequenceInput.value = ''
     if (newStudyDescriptionInput) newStudyDescriptionInput.value = ''
@@ -147,9 +159,21 @@ document.addEventListener('DOMContentLoaded', function(){
     if (!family || !sequence) {
       return alert('Inserisci famiglia e sequenza per il nuovo studio.')
     }
-    closeNewStudyModal()
-    alert(`Nuovo studio creato (simulazione): ${family}${sequence} — ${description}`)
-    console.log('Simulazione creazione nuovo studio', { family, sequence, description })
+    // call backend to create study in Excel
+    fetch('/api/create_study', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ family: family, description: description })
+    }).then(r => r.json()).then(j => {
+      if (j.error) {
+        alert('Errore creazione studio: ' + (j.detail || j.error))
+        return
+      }
+      closeNewStudyModal()
+      alert('Nuovo studio creato: ' + (j.created.full_code || ''))
+      console.log('Creato studio', j.created)
+    }).catch(err => {
+      alert('Errore comunicazione backend: ' + err)
+    })
   }
 
   function collectGroupCodeModalValues() {

@@ -172,6 +172,21 @@ def init_drawings():
     return jsonify(results)
 
 
+@main_bp.route('/api/create_study', methods=['POST'])
+def create_study():
+    data = request.json or {}
+    family = data.get('family')
+    description = data.get('description')
+    user = data.get('user')
+    if not family:
+        return jsonify({'error': 'family required'}), 400
+    try:
+        result = loader.create_new_study(family_code=family, description=description, user=user)
+        return jsonify({'status': 'ok', 'created': result}), 200
+    except Exception as exc:
+        return jsonify({'error': 'failed to create study', 'detail': str(exc)}), 500
+
+
 @main_bp.route('/api/replay_curl', methods=['POST'])
 def replay_curl():
     data = request.json or {}
