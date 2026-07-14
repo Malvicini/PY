@@ -1,60 +1,44 @@
-# Current Task
-
-## What is Currently Being Worked On
-Implementare le nuove schermate web per i comandi `Nuovo studio` e `Aggiungi codice grp.`, mantenendo il backend invariato per questa fase.
+﻿# Current Task
 
 ## Current Objective
-Sviluppare l’interfaccia HTTP e i componenti front-end necessari per la creazione simulata dei nuovi studi e l’aggiunta di gruppi, come primo step prima di collegare i form al salvataggio Excel.
+Stabilizzare la gestione delle cartelle dei disegni in modo che rispetti la struttura reale del workbook Excel e non introduca convenzioni inventate.
 
-## Files/Modules Involved
-- `docs/PROJECT_CONTEXT.md`: Updated with actual features from app.py, data_loader.py, frontend code
-- `docs/CURRENT_TASK.md`: This file (being updated)
-- `docs/NEXT_STEPS.md`: Will be updated with actionable priorities
-- `docs/KNOWN_ISSUES.md`: Updated with discovered issues from code review
-- `docs/ARCHITECTURE.md`: Created with detailed system architecture
-- Core codebase files analyzed: app.py, data_loader.py, runner.py, macro_1.py, adi_fetcher.py, templates/index.html, static/js/app.js, static/js/sidebar-manager.js, requirements.txt, README.md
+## Quick snapshot
+- Status: the current folder convention is stabilized and documented.
+- Priority: preserve it and avoid introducing alternative layouts.
+- Success criteria: workbook-driven family folders are used and PDF lookup still resolves correctly.
 
-## Unfinished Work
-- Complete updates to NEXT_STEPS.md and ARCHITECTURE.md
-- Verify documentation accuracy against running application
-- Test venv activation and app startup after documentation completion
+## Scope
+- Allineare la creazione delle cartelle ai codici famiglia presenti nel file Excel Gestione_Studi_DB_20251010.xlsx.
+- Assicurare che il resolver dei PDF trovi i PDF nella struttura DRAWINGS_DIR/<family>/<study_code>/<study_code>.pdf.
+- Documentare in modo definitivo la struttura da seguire e i vincoli da non violare.
 
-## Blockers/Problems
-- Virtual environment activation failing (exit code 1) - may require recreation
-- ARCHITECTURE.md file was missing and needs to be created
+## Files / Modules Involved
+- data_loader.py: folder creation for newly created studies
+- pdf_finder.py: PDF lookup and retroactive folder creation
+- create_drawings_structure_fixed.py: reference script for mass recreation of the folder tree from Excel
+- docs/AGENTS.md, docs/PROJECT_CONTEXT.md, docs/ARCHITECTURE.md: documentation alignment
 
-## Important Recent Changes
-- Analyzed entire codebase including all API endpoints, automation scripts, and frontend logic
-- Updated PROJECT_CONTEXT.md with comprehensive feature list and actual architecture
-- Discovered additional implemented features (proxy endpoints, cURL replay, credentials storage, folder creation)
-- Identified missing documentation for ARCHITECTURE.md
+## Completed Work
+- Verified the real workbook structure and aligned the folder logic to the Excel family codes.
+- Rebuilt the drawings tree from the workbook using the existing bulk script.
+- Removed the earlier test folders created outside the intended structure.
+- Updated the documentation to describe the approved layout and the guardrails for future edits.
 
-## What Should be Continued Next
-- Complete the remaining documentation updates (NEXT_STEPS.md, ARCHITECTURE.md)
-- Test the Flask application startup and core functionality
-- Validate PDF lookup and automation features work correctly
-- Ensure all documentation files are internally consistent
+## Constraints
+- Do not invent new folder prefixes.
+- Do not create study folders directly under the root of DRAWINGS_DIR.
+- Do not add new placeholder files or experimental layouts.
+- Use the Excel family code as the source of truth.
 
-## Refactor Progress (app.py)
+## Definition of done
+- The drawings folder layout matches the workbook-based family structure.
+- PDF lookup resolves a known study code correctly.
+- The docs reflect the current behavior and the current task state.
 
-- STEP 1: Pulizia imports — COMPLETATO
-	- Consolidati gli import di `flask` e rimossi gli import inutilizzati
-	- Rimosso `import re as _re` duplicato
-	- Files modificati: `app.py`
+## Context for future chats
+- This file is the entry point for continuation work.
+- New sessions should start from this file and the other docs/ files before proposing changes.
 
-- STEP 2: Estrarre logica HTTP — COMPLETATO
-	- Aggiunte helper `_build_http_headers()` e `_fetch_url_and_respond()`
-	- `proxy_pdf()` e `run_quick_proxy()` refattorizzati per usare gli helper
-	- Files modificati: `app.py`
-
-- STEP 3: Estrarre PDF lookup logic — COMPLETATO
-	- Logica di ricerca PDF spostata in `pdf_finder.py` (creata)
-	- `fetch_pdf_local()` refattorizzato per usare `find_pdf_path()`
-	- Stato: `pdf_finder.py` creato, `app.py` aggiornato
-
-- STEP 4: Refactor caching — COMPLETATO
-	- Cache globale `_groups_machines_cache` estratta in `cache_manager.py`
-	- `routes.py` ora utilizza `GroupsMachinesCache` per i dati `all_groups_machines`
-	- `app.py` è stato ridotto a un entrypoint minimale che registra il blueprint
-
-Note: tutte le modifiche finora sono state effettuate per minimizzare i cambiamenti runtime; gli endpoint principali risultano registrati e testati localmente.
+## Next Step
+- Keep this behavior stable and avoid introducing alternate layouts unless explicitly requested.

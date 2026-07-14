@@ -18,6 +18,7 @@ Core behavior rules:
 - Treat the documentation files as persistent AI memory for the project.
 - Preserve consistency between codebase and documentation.
 - Never leave outdated information inside documentation files.
+- For any new chat or continuation task, start by reading these docs before proposing changes or asking the user for context that is already captured here.
 
 Documentation update responsibilities:
 
@@ -94,10 +95,10 @@ Documentation quality rules:
 Project-specific guidance:
 
 - This repository is Windows-first and script-based; preserve path assumptions and local filesystem behavior.
-- The web app entrypoint is `app.py`; it creates a Flask app and registers `main_bp` from `routes.py`.
-- Core backend modules include `config.py`, `helpers.py`, `cache_manager.py`, `pdf_finder.py`, and `data_loader.py`.
-- Use `DRAWINGS_DIR` or the default `H:\96-GESTIONE_STUDI\DISEGNI` for PDF lookup.
+- The web app entrypoint is app.py; it creates a Flask app and registers main_bp from routes.py.
+- Core backend modules include config.py, helpers.py, cache_manager.py, pdf_finder.py, and data_loader.py.
+- Use DRAWINGS_DIR or the default H:\96-GESTIONE_STUDI\DISEGNI for PDF lookup.
 - Keep Excel loading and PDF lookup behavior unchanged unless the task explicitly requires a redesign.
-- Prefer small, incremental changes and update `/docs/AGENTS.md`, `/docs/CURRENT_TASK.md`, `/docs/NEXT_STEPS.md`, and `/docs/ARCHITECTURE.md` when architecture or workflow changes.
-- When there is no test suite, rely on code compilation and running `app.py` for validation.
-- Prefer `docs/AGENTS.md` as the primary AI instruction file for this repository.
+- Prefer small, incremental changes and update /docs/AGENTS.md, /docs/CURRENT_TASK.md, /docs/NEXT_STEPS.md, and /docs/ARCHITECTURE.md when architecture or workflow changes.
+- When there is no test suite, rely on code compilation and running app.py for validation.
+- Prefer docs/AGENTS.md as the primary AI instruction file for this repository.

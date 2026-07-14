@@ -3,6 +3,26 @@
 import os
 import re
 
+from helpers import sanitize_filesystem_name
+
+
+def _derive_family_prefix(code):
+    """Derive the drawings family folder from a study code.
+
+    The canonical rule is to use the exact family code already present in the Excel
+    workbook when possible. For example, codes like TUNI032 and GS-U008 should be
+    grouped under their family folders TUNI and GS-U, respectively.
+    """
+    normalized = sanitize_filesystem_name(str(code).strip()) or str(code).strip()
+    if not normalized:
+        return None
+
+    match = re.match(r'^([A-Z]+(?:-[A-Z]+)*)', normalized.upper())
+    if match:
+        return match.group(1)
+
+    return None
+
 
 def find_pdf_path(code, base_dir=None):
     """Find PDF file path for a given drawing code in local filesystem.
@@ -25,46 +45,31 @@ def find_pdf_path(code, base_dir=None):
     # DEBUG: Log the received code
     print(f"DEBUG find_pdf_path: Received code='{code}'")
     
-    # Normalize code to uppercase
-    code = code.upper()
+    # Normalize code to uppercase and keep a filesystem-safe version for paths
+    safe_code = sanitize_filesystem_name(str(code).strip()) or str(code).strip()
+    code = safe_code.upper()
     print(f"DEBUG find_pdf_path: Normalized code='{code}'")
     
-    # Try to find prefix by checking which folder in DISEGNI matches the code
-    # Try in descending length order (5 char, 4 char, 3 char, 2 char)
-    prefisso = None
-    
-    for prefix_len in [5, 4, 3, 2]:
-        test_prefix = code[:prefix_len]
-        test_path = os.path.join(base_dir, test_prefix)
-        if os.path.isdir(test_path):
-            prefisso = test_prefix
-            print(f"DEBUG: Found prefix {prefisso} (length {prefix_len})")
-            break
-    
+    # Derive the family folder from the leading letters of the code.
+    # Examples: TUNI032 -> TUNI, GS-U008 -> GS-U, ULHD015 -> ULHD.
+    prefisso = _derive_family_prefix(code)
+    if prefisso:
+        print(f"DEBUG: Found prefix {prefisso}")
+
     if not prefisso:
-        # Fallback: extract only initial letters
-        prefisso_match = re.match(r'([A-Z]+)', code)
-        if prefisso_match:
-            prefisso = prefisso_match.group(1)
-            print(f"DEBUG: Prefix extracted from letters: {prefisso}")
-        else:
-            return None, f'Prefix not found in code: {code}'
+        return None, f'Prefix not found in code: {code}'
     
-    # Search ONLY in: BASE_DIR / PREFISSO / CODICE / CODICE.pdf (or .PDF)
+    # Search the historical layout first: BASE_DIR / FAMIGLIA / CODICE / CODICE.pdf
     target_dir = os.path.join(base_dir, prefisso, code)
-    
-    print(f"DEBUG: Searching for PDF with code={code}, prefix={prefisso}")
-    print(f"DEBUG: Searching in: {target_dir}")
-    
-    # Try both .pdf and .PDF extensions
+    print(f"DEBUG: Searching in family folder: {target_dir}")
+
     for ext in ['.pdf', '.PDF']:
         pdf_path = os.path.join(target_dir, code + ext)
         print(f"DEBUG: Checking {pdf_path} - Exists: {os.path.isfile(pdf_path)}")
         if os.path.isfile(pdf_path):
             print(f"DEBUG: Found! {pdf_path}")
             return pdf_path, None
-    
-    # If exact file not found, try any PDF in the folder
+
     if os.path.isdir(target_dir):
         print(f"DEBUG: Directory {target_dir} exists, searching for any PDF inside...")
         try:
@@ -75,7 +80,35 @@ def find_pdf_path(code, base_dir=None):
                     return full_path, None
         except Exception as e:
             print(f"DEBUG: Error listing directory: {e}")
-    
-    # If not found, return error (WITHOUT global search)
-    print(f"DEBUG: PDF not found in {target_dir}")
-    return None, f'PDF not found in {target_dir}'
+
+    # If the family-based folder does not exist yet, create it retroactively.
+    try:
+        os.makedirs(target_dir, exist_ok=True)
+        print(f"DEBUG: Created missing folder {target_dir}")
+    except Exception as exc:
+        print(f"DEBUG: Could not create folder {target_dir}: {exc}")
+
+    # Fallback to the flat direct folder layout for newer entries.
+    direct_dir = os.path.join(base_dir, code)
+    print(f"DEBUG: Searching in direct folder: {direct_dir}")
+
+    for ext in ['.pdf', '.PDF']:
+        pdf_path = os.path.join(target_dir, code + ext)
+        print(f"DEBUG: Checking {pdf_path} - Exists: {os.path.isfile(pdf_path)}")
+        if os.path.isfile(pdf_path):
+            print(f"DEBUG: Found! {pdf_path}")
+            return pdf_path, None
+
+    if os.path.isdir(target_dir):
+        print(f"DEBUG: Directory {target_dir} exists, searching for any PDF inside...")
+        try:
+            for fn in os.listdir(target_dir):
+                if fn.lower().endswith('.pdf'):
+                    full_path = os.path.join(target_dir, fn)
+                    print(f"DEBUG: Found alternative PDF: {full_path}")
+                    return full_path, None
+        except Exception as e:
+            print(f"DEBUG: Error listing directory: {e}")
+
+    print(f"DEBUG: PDF not found in {direct_dir} or {target_dir}")
+    return None, f'PDF not found in {direct_dir} or {target_dir}'

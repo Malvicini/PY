@@ -1,9 +1,14 @@
 import getpass
 import os
+import re
 from datetime import date
 
 import openpyxl
 import pandas as pd
+
+from config import DEFAULT_DRAWINGS_DIR
+from helpers import sanitize_filesystem_name
+from pdf_finder import _derive_family_prefix
 
 
 class DataLoader:
@@ -160,6 +165,37 @@ class DataLoader:
                 continue
         return str(max_prog + 1).zfill(3)
 
+    def _ensure_study_drawings_folder(self, family_code: str, full_code: str, base_dir: str = None):
+        drawings_base = base_dir or os.environ.get('DRAWINGS_DIR', DEFAULT_DRAWINGS_DIR)
+        if not drawings_base:
+            return None
+
+        drawings_base = os.path.abspath(os.path.expanduser(str(drawings_base)))
+        os.makedirs(drawings_base, exist_ok=True)
+
+        safe_code = sanitize_filesystem_name(str(full_code).strip())
+        if not safe_code:
+            return None
+
+        safe_family = sanitize_filesystem_name(str(family_code).strip())
+        if not safe_family:
+            safe_family = _derive_family_prefix(safe_code)
+        if not safe_family:
+            safe_family = safe_code
+
+        # The folder name should follow the family code from the Excel workbook.
+        # Example: GS-U008 belongs under the family folder GS-U, not under GS.
+        if safe_family and safe_code.upper().startswith(f'{safe_family.upper()}'):
+            safe_family = safe_family
+
+        family_dir = os.path.join(drawings_base, safe_family)
+        os.makedirs(family_dir, exist_ok=True)
+
+        study_dir = os.path.join(family_dir, safe_code)
+        os.makedirs(study_dir, exist_ok=True)
+
+        return study_dir
+
     def create_new_study(self, family_code: str, description: str, user: str = None, created_date: str = None):
         if created_date is None:
             created_date = date.today()
@@ -212,6 +248,12 @@ class DataLoader:
         ws.cell(row=target_row, column=idx_colonna4, value=full_code)
 
         wb.save(self.excel_path)
+
+        try:
+            drawings_folder = self._ensure_study_drawings_folder(family_code, full_code)
+        except Exception:
+            drawings_folder = None
+
         self._sequences = None
         return {
             'family_code': family_code,
@@ -220,6 +262,7 @@ class DataLoader:
             'date': created_date.strftime('%d/%m/%Y') if hasattr(created_date, 'strftime') else str(created_date),
             'user': user or '',
             'full_code': full_code,
+            'drawings_folder': drawings_folder,
         }
 
     def get_groups_machines(self):
