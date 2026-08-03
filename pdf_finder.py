@@ -24,6 +24,41 @@ def _derive_family_prefix(code):
     return None
 
 
+def _candidate_family_prefixes(code, base_dir=None):
+    """Return plausible family prefixes for a code.
+
+    The lookup should prefer the family prefix derived from the study code itself.
+    For example, TUNI032 resolves to TUNI before falling back to a generic stem.
+    """
+    normalized = sanitize_filesystem_name(str(code).strip()) or str(code).strip()
+    if not normalized:
+        return []
+
+    code_upper = normalized.upper()
+    prefixes = []
+
+    direct_prefix = _derive_family_prefix(code_upper)
+    if direct_prefix:
+        prefixes.append(direct_prefix)
+
+    stem = code_upper
+    previous_stem = None
+    while stem and stem != previous_stem:
+        previous_stem = stem
+        stem = re.sub(r'\d+$', '', stem)
+        if stem and stem not in prefixes:
+            prefixes.append(stem)
+        if len(stem) <= 1:
+            break
+
+    unique_prefixes = []
+    for prefix in prefixes:
+        if prefix and prefix not in unique_prefixes:
+            unique_prefixes.append(prefix)
+
+    return sorted(unique_prefixes, key=lambda item: (-len(item), item))
+
+
 def find_pdf_path(code, base_dir=None):
     """Find PDF file path for a given drawing code in local filesystem.
     
@@ -41,74 +76,65 @@ def find_pdf_path(code, base_dir=None):
     """
     if not base_dir:
         base_dir = os.environ.get('DRAWINGS_DIR', r'H:\96-GESTIONE_STUDI\DISEGNI')
-    
-    # DEBUG: Log the received code
-    print(f"DEBUG find_pdf_path: Received code='{code}'")
-    
-    # Normalize code to uppercase and keep a filesystem-safe version for paths
+
     safe_code = sanitize_filesystem_name(str(code).strip()) or str(code).strip()
+    if not safe_code:
+        return None, 'Code is empty'
+
     code = safe_code.upper()
-    print(f"DEBUG find_pdf_path: Normalized code='{code}'")
-    
-    # Derive the family folder from the leading letters of the code.
-    # Examples: TUNI032 -> TUNI, GS-U008 -> GS-U, ULHD015 -> ULHD.
-    prefisso = _derive_family_prefix(code)
-    if prefisso:
-        print(f"DEBUG: Found prefix {prefisso}")
+    base_dir = os.path.abspath(os.path.expanduser(str(base_dir)))
 
-    if not prefisso:
+    prefixes = _candidate_family_prefixes(code, base_dir)
+    if not prefixes:
         return None, f'Prefix not found in code: {code}'
-    
-    # Search the historical layout first: BASE_DIR / FAMIGLIA / CODICE / CODICE.pdf
-    target_dir = os.path.join(base_dir, prefisso, code)
-    print(f"DEBUG: Searching in family folder: {target_dir}")
 
-    for ext in ['.pdf', '.PDF']:
-        pdf_path = os.path.join(target_dir, code + ext)
-        print(f"DEBUG: Checking {pdf_path} - Exists: {os.path.isfile(pdf_path)}")
-        if os.path.isfile(pdf_path):
-            print(f"DEBUG: Found! {pdf_path}")
-            return pdf_path, None
+    candidate_dirs = []
+    for prefisso in prefixes:
+        candidate_dirs.append(os.path.join(base_dir, prefisso, code))
+        candidate_dirs.append(os.path.join(base_dir, code))
+        candidate_dirs.append(os.path.join(base_dir, prefisso))
 
-    if os.path.isdir(target_dir):
-        print(f"DEBUG: Directory {target_dir} exists, searching for any PDF inside...")
-        try:
-            for fn in os.listdir(target_dir):
-                if fn.lower().endswith('.pdf'):
-                    full_path = os.path.join(target_dir, fn)
-                    print(f"DEBUG: Found alternative PDF: {full_path}")
-                    return full_path, None
-        except Exception as e:
-            print(f"DEBUG: Error listing directory: {e}")
+    seen_dirs = set()
+    for candidate_dir in candidate_dirs:
+        if not candidate_dir or candidate_dir in seen_dirs:
+            continue
+        seen_dirs.add(candidate_dir)
 
-    # If the family-based folder does not exist yet, create it retroactively.
-    try:
-        os.makedirs(target_dir, exist_ok=True)
-        print(f"DEBUG: Created missing folder {target_dir}")
-    except Exception as exc:
-        print(f"DEBUG: Could not create folder {target_dir}: {exc}")
+        if os.path.isdir(candidate_dir):
+            try:
+                for fn in os.listdir(candidate_dir):
+                    if fn.lower().endswith('.pdf'):
+                        stem = os.path.splitext(fn)[0].lower()
+                        if stem == code.lower():
+                            return os.path.join(candidate_dir, fn), None
+            except Exception:
+                pass
 
-    # Fallback to the flat direct folder layout for newer entries.
-    direct_dir = os.path.join(base_dir, code)
-    print(f"DEBUG: Searching in direct folder: {direct_dir}")
+        for ext in ['.pdf', '.PDF']:
+            pdf_path = os.path.join(candidate_dir, code + ext)
+            if os.path.isfile(pdf_path):
+                return pdf_path, None
 
-    for ext in ['.pdf', '.PDF']:
-        pdf_path = os.path.join(target_dir, code + ext)
-        print(f"DEBUG: Checking {pdf_path} - Exists: {os.path.isfile(pdf_path)}")
-        if os.path.isfile(pdf_path):
-            print(f"DEBUG: Found! {pdf_path}")
-            return pdf_path, None
+    search_roots = []
+    for prefisso in prefixes:
+        pref_dir = os.path.join(base_dir, prefisso)
+        if os.path.isdir(pref_dir):
+            search_roots.append(pref_dir)
+    if not search_roots and os.path.isdir(base_dir):
+        search_roots.append(base_dir)
 
-    if os.path.isdir(target_dir):
-        print(f"DEBUG: Directory {target_dir} exists, searching for any PDF inside...")
-        try:
-            for fn in os.listdir(target_dir):
-                if fn.lower().endswith('.pdf'):
-                    full_path = os.path.join(target_dir, fn)
-                    print(f"DEBUG: Found alternative PDF: {full_path}")
-                    return full_path, None
-        except Exception as e:
-            print(f"DEBUG: Error listing directory: {e}")
+    seen_roots = set()
+    for search_root in search_roots:
+        if search_root in seen_roots:
+            continue
+        seen_roots.add(search_root)
+        for root, _, files in os.walk(search_root):
+            for filename in files:
+                if not filename.lower().endswith('.pdf'):
+                    continue
+                stem = os.path.splitext(filename)[0].lower()
+                stem_without_suffix = re.sub(r'\s*\(\d+\)$', '', stem)
+                if stem_without_suffix == code.lower():
+                    return os.path.join(root, filename), None
 
-    print(f"DEBUG: PDF not found in {direct_dir} or {target_dir}")
-    return None, f'PDF not found in {direct_dir} or {target_dir}'
+    return None, f'PDF not found for {code}'

@@ -440,38 +440,34 @@ document.addEventListener('DOMContentLoaded', function(){
         
         const pdfContainer = document.getElementById('pdf-container')
         if(pdfContainer) pdfContainer.innerHTML = '<div id="pdf-placeholder">Caricamento anteprima...</div>'
-        console.log('DEBUG JS: Requesting PDF for fullCode:', fullCode)
-        fetch('/api/fetch_pdf_local', {
-          method: 'POST', headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ code: fullCode })
-        }).then(r => {
-          console.log('DEBUG JS: Fetch response status:', r.status)
-          if(!r.ok) return r.json().then(j => Promise.reject(j))
-          return r.blob()
-        }).then(blob => {
-          console.log('DEBUG JS: Blob received, size:', blob.size)
-          const url = URL.createObjectURL(blob)
-          const containerEl = document.getElementById('pdf-container')
-          if(!containerEl){ console.error('pdf-container missing'); return }
-          containerEl.innerHTML = ''
-          const embed = document.createElement('embed')
-          embed.src = url
-          embed.type = 'application/pdf'
-          embed.style.width = '100%'
-          embed.style.height = '100%'
-          containerEl.appendChild(embed)
-          updateScrollState(containerEl)  // Recalculate scrollbar after PDF loads
+        const containerEl = document.getElementById('pdf-container')
+        if(!containerEl){ console.error('pdf-container missing'); return }
+
+        const iframe = document.createElement('iframe')
+        iframe.src = '/api/fetch_pdf_local?code=' + encodeURIComponent(fullCode)
+        iframe.dataset.previewMode = 'iframe'
+        iframe.dataset.previewEndpoint = '/api/fetch_pdf_local'
+        iframe.title = 'Anteprima PDF ' + fullCode
+        iframe.style.width = '100%'
+        iframe.style.height = '100%'
+        iframe.style.border = '0'
+        iframe.style.background = 'white'
+
+        iframe.addEventListener('load', () => {
+          const placeholder = document.getElementById('pdf-placeholder')
+          if (placeholder) placeholder.remove()
+          updateScrollState(containerEl)
           const blocker = document.getElementById('pdf-blocker')
           if(blocker) blocker.style.display = 'block'
-          setTimeout(()=> URL.revokeObjectURL(url), 60000)
-        }).catch(err => {
-          console.error('DEBUG JS: PDF loading error:', err)
-          const containerEl = document.getElementById('pdf-container')
-          if(containerEl) {
-            containerEl.innerHTML = '<div style="color:red">❌ PDF mancante per: '+fullCode+'</div>'
-            updateScrollState(containerEl)
-          }
         })
+
+        iframe.addEventListener('error', () => {
+          containerEl.innerHTML = '<div style="color:red">❌ Impossibile caricare il PDF per: ' + fullCode + '</div>'
+          updateScrollState(containerEl)
+        })
+
+        containerEl.innerHTML = ''
+        containerEl.appendChild(iframe)
       })
       container.appendChild(node)
     })
@@ -485,21 +481,9 @@ document.addEventListener('DOMContentLoaded', function(){
     const d = el('div','desc', seq.description || '')
   const btn = el('button','adi-btn','Apri PDF locale')
   btn.addEventListener('click', () => {
-    // Usa seq.sequence_id che dovrebbe già contenere il codice completo (famiglia + numero)
     const fullSeqCode = seq.sequence_id || seq.code || ''
-    console.log('DEBUG JS: Requesting PDF for fullSeqCode:', fullSeqCode)
-    // request PDF from local drawings directory
-    fetch('/api/fetch_pdf_local', {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ code: fullSeqCode })
-    }).then(r => {
-      if(!r.ok) return r.json().then(j => Promise.reject(j))
-      return r.blob()
-    }).then(blob => {
-      const url = URL.createObjectURL(blob)
-      window.open(url, '_blank')
-      setTimeout(()=> URL.revokeObjectURL(url), 60000)
-    }).catch(err => { console.error(err); alert('❌ PDF mancante: '+fullSeqCode) })
+    const previewUrl = '/api/fetch_pdf_local?code=' + encodeURIComponent(fullSeqCode)
+    window.open(previewUrl, '_blank')
   })
   const ideBtn = el('div')
     area.appendChild(t)

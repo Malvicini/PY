@@ -23,6 +23,7 @@ Stabilizzare la gestione delle cartelle dei disegni in modo che rispetti la stru
 - Verified the real workbook structure and aligned the folder logic to the Excel family codes.
 - Rebuilt the drawings tree from the workbook using the existing bulk script.
 - Removed the earlier test folders created outside the intended structure.
+- Implemented the approved PDF preview flow through /api/fetch_pdf_local using the direct iframe integration.
 - Updated the documentation to describe the approved layout and the guardrails for future edits.
 
 ## Constraints
@@ -30,6 +31,7 @@ Stabilizzare la gestione delle cartelle dei disegni in modo che rispetti la stru
 - Do not create study folders directly under the root of DRAWINGS_DIR.
 - Do not add new placeholder files or experimental layouts.
 - Use the Excel family code as the source of truth.
+- Keep the PDF preview implementation exactly as the current approved flow: Flask route /api/fetch_pdf_local serves the PDF and the frontend renders it in an iframe. Do not reintroduce fetch-to-blob preview logic, timeout-based fallback UI, or alternative browser-side PDF loading mechanisms.
 
 ## Definition of done
 - The drawings folder layout matches the workbook-based family structure.

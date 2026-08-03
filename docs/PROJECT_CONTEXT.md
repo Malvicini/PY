@@ -46,9 +46,10 @@ Raccoglitore is a Python/Flask-based web application for managing technical stud
 1. Data Loading: Excel workbook loaded at startup with lazy caching for performance
 2. Web Browsing: Hierarchical navigation (Families → Sequences → Groups/Machines) with search
 3. PDF Viewing: Local lookup in DRAWINGS_DIR with structured path resolution
-4. Automation: Excel list processing, PyAutoGUI image recognition for UI interaction, progress saving
-5. Proxy Operations: URL-based PDF fetching with session cookies, cURL command parsing and replay
-6. Folder Creation: Dynamic directory structure generation from family/sequence data
+4. Preview policy: the approved implementation is the Flask endpoint /api/fetch_pdf_local serving the PDF and the browser rendering it in an iframe; this flow is the locked-in behavior and must not be replaced by other loading approaches.
+5. Automation: Excel list processing, PyAutoGUI image recognition for UI interaction, progress saving
+6. Proxy Operations: URL-based PDF fetching with session cookies, cURL command parsing and replay
+7. Folder Creation: Dynamic directory structure generation from family/sequence data
 
 ## Database/Services Overview
 - No Database: Data stored in Excel files (Gestione_Studi_DB_20251010.xlsx, elenco_codici_studi.xlsx)

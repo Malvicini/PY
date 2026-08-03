@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from urllib.parse import quote
 
 import requests
 from flask import Blueprint, jsonify, make_response, render_template, request, send_file
@@ -18,6 +19,14 @@ from helpers import (
 from pdf_finder import find_pdf_path
 
 main_bp = Blueprint('main', __name__)
+
+PDF_PREVIEW_ENDPOINT = '/api/fetch_pdf_local'
+PDF_PREVIEW_MODE = 'iframe'
+
+
+def build_pdf_preview_url(code: str) -> str:
+    return f"{PDF_PREVIEW_ENDPOINT}?code={quote(code, safe='')}"
+
 
 loader = DataLoader(DATA_FILE)
 cache = GroupsMachinesCache()
@@ -102,24 +111,28 @@ def run_quick_proxy():
     return fetch_url_and_respond(url, headers, 'quick_test.pdf')
 
 
-@main_bp.route('/api/fetch_pdf_local', methods=['POST'])
+@main_bp.route('/api/fetch_pdf_local', methods=['GET', 'POST'])
 def fetch_pdf_local():
-    data = request.json or {}
-    code = data.get('code')
+    data = request.get_json(silent=True) or {}
+    code = data.get('code') or request.args.get('code')
     if not code:
         return jsonify({'error': 'code required'}), 400
 
     pdf_path, error = find_pdf_path(code, DEFAULT_DRAWINGS_DIR)
     if error or not pdf_path:
         error_msg = error or 'PDF not found'
-        print(f"DEBUG: Error - {error_msg}")
         return jsonify({'error': error_msg, 'searched_for': code}), 404
 
     try:
-        print(f"DEBUG: Sending file: {pdf_path}")
-        return send_file(pdf_path, mimetype='application/pdf', as_attachment=False, download_name=os.path.basename(pdf_path))
+        response = send_file(
+            pdf_path,
+            mimetype='application/pdf',
+            as_attachment=False,
+            download_name=os.path.basename(pdf_path),
+        )
+        response.headers['Cache-Control'] = 'no-store'
+        return response
     except Exception as exc:
-        print(f"DEBUG: Exception send_file: {exc}")
         return jsonify({'error': 'failed to send file', 'detail': str(exc)}), 500
 
 

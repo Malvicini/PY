@@ -92,4 +92,6 @@ Do not assume that previous chat context is enough. If these files are missing o
 - The family folder must come from the Excel workbook family code, not from a guessed prefix.
 - For legacy entries, PDF lookup may still need to support older folders, but new study folders must always be created under the family directory.
 - Do not create new study folders directly under the drawings root; that breaks the historical structure and can confuse the PDF resolver.
+- The PDF preview must remain served through the Flask endpoint /api/fetch_pdf_local and rendered in the browser via a direct iframe-based preview flow. Do not revert to fragile fetch-to-blob logic or any timeout-based workaround that replaces the stable route behavior.
+- The frontend must continue to request PDFs through /api/fetch_pdf_local with the selected study code and must not introduce alternative preview mechanisms or custom binary handling in the browser.
 - For validation, prefer running python app.py and checking route behavior rather than relying on missing tests.

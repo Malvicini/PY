@@ -47,7 +47,7 @@ Raccoglitore is a web-based document management system built with a traditional 
 - Key Features:
   - Dynamic sidebar population with family/sequence hierarchy
   - Real-time search with debouncing (300ms delay)
-  - PDF embedding and viewer management
+  - PDF embedding and viewer management through the approved /api/fetch_pdf_local iframe flow
   - Groups/machines detail display
   - Error handling and user feedback
 
@@ -124,7 +124,7 @@ The docs directory is part of the runtime context for this repository. New chats
 1. Startup: Flask loads Excel data into DataLoader cache
 2. Page Load: Frontend fetches all families and sequences
 3. Navigation: User selects family → loads sequences → displays groups/machines
-4. PDF View: Code lookup → family-based filesystem search → embed PDF in browser
+4. PDF View: Code lookup → family-based filesystem search → /api/fetch_pdf_local serves the PDF → browser renders it in an iframe
 
 ### Automation Flow
 1. Bulk Processing: runner.py reads Excel code list
@@ -186,7 +186,7 @@ raccoglitore/
 ### Data Formats
 - Excel: primary data source with fixed schema expectations
 - JSON: API communication and configuration files
-- PDF: document format for viewing and storage
+- PDF: document format for viewing and storage, served by the approved Flask endpoint and rendered in the browser via iframe
 
 ## Architectural Patterns Used
 
